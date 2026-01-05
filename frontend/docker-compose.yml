@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_DB: greenresource
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres123
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-CHANGE_THIS_TO_SECURE_PASSWORD}
       PGDATA: /var/lib/postgresql/data/pgdata
     ports:
       - "5434:5432"

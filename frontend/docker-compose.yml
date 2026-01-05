@@ -43,7 +43,7 @@ services:
       - DB_PORT=5432
       - DB_DATABASE=greenresource
       - DB_USERNAME=postgres
-      - DB_PASSWORD=postgres123
+      - DB_PASSWORD=${DB_PASSWORD:-CHANGE_THIS_TO_SECURE_PASSWORD}
 
   # Nginx Web Server
   nginx:

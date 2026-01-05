@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Contact Us – Green Resources</title>
+    <meta
+      name="description"
+      content="Get in touch with Green Resources for corporate, partnership, or sustainability inquiries."
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="page">
+    <header>
+      <div class="container">
+        <nav class="nav">
+          <a href="./index.html" class="brand">
+            <span class="brand-mark">GR</span>
+            <span>Green Resources</span>
+          </a>
+          <button
+            class="nav-toggle"
+            type="button"
+            aria-label="Toggle navigation"
+            data-nav-toggle
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          <div class="nav-links" data-nav-links>
+            <a href="./about.html">About</a>
+            <a href="./business.html">Business</a>
+            <a href="./sustainability.html">Sustainability</a>
+            <a href="./news.html">News</a>
+            <a href="./careers.html">Careers</a>
+            <a href="./contact.html" class="nav-cta active">Contact</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="section">
+        <div class="container contact-grid">
+          <div>
+            <div class="section-kicker">Contact us</div>
+            <h1 class="section-title">We’d love to hear from you.</h1>
+            <p class="section-description">
+              Use this form to reach Green Resources for corporate,
+              partnership, or sustainability-related inquiries. Your message
+              will be routed to the right team, logged, and handled with care.
+            </p>
+
+            <div class="card" style="margin-top: 1.5rem">
+              <p class="card-body" style="margin-top: 0">
+                Once the backend is connected, this form will:
+              </p>
+              <ul class="card-list">
+                <li>Log 100% of inquiries for follow-up and reporting</li>
+                <li>Send emails to configured recipients (with CC/BCC)</li>
+                <li>Support optional auto-reply messaging</li>
+              </ul>
+            </div>
+          </div>
+
+          <div>
+            <form class="contact-card" data-contact-form>
+              <div class="field-row">
+                <div class="field">
+                  <label for="name">
+                    Name
+                    <span>*</span>
+                  </label>
+                  <input id="name" name="name" type="text" required />
+                </div>
+                <div class="field">
+                  <label for="company">
+                    Company
+                  </label>
+                  <input id="company" name="company" type="text" />
+                </div>
+              </div>
+
+              <div class="field-row">
+                <div class="field">
+                  <label for="email">
+                    Email
+                    <span>*</span>
+                  </label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    inputmode="email"
+                    required
+                  />
+                </div>
+                <div class="field">
+                  <label for="phone">
+                    Phone
+                    <span style="color: #6b7280; margin-left: 0">(optional)</span>
+                  </label>
+                  <input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    inputmode="tel"
+                  />
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="subject">
+                  Subject
+                  <span>*</span>
+                </label>
+                <input id="subject" name="subject" type="text" required />
+              </div>
+
+              <div class="field">
+                <label for="message">
+                  Message
+                  <span>*</span>
+                </label>
+                <textarea id="message" name="message" required></textarea>
+              </div>
+
+              <div class="form-footer">
+                <div class="captcha">
+                  Protected by basic anti-spam &mdash; please avoid sending
+                  automated submissions.
+                </div>
+                <button class="btn-primary" type="submit">
+                  Send inquiry
+                </button>
+              </div>
+
+              <p class="form-note">
+                By submitting this form you agree that Green Resources may
+                store and process the information provided for the purpose of
+                responding to your inquiry.
+              </p>
+
+              <div class="alert" data-contact-alert hidden></div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-inner">
+        <div>© <span id="year"></span> Green Resources. All rights reserved.</div>
+        <div class="footer-links">
+          <a href="./about.html">About</a>
+          <a href="./sustainability.html">Sustainability</a>
+          <a href="./contact.html">Contact</a>
+          <a href="./admin/login.html">Admin</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      document.getElementById("year").textContent =
+        new Date().getFullYear().toString();
+    </script>
+    <script src="./main.js"></script>
+  </body>
+</html>
+
+

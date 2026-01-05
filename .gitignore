@@ -1,0 +1,38 @@
+# Laravel
+/frontend/vendor/
+/frontend/node_modules/
+/frontend/.env
+/frontend/.env.backup
+/frontend/.phpunit.result.cache
+/frontend/storage/*.key
+/frontend/storage/framework/cache/*
+/frontend/storage/framework/sessions/*
+/frontend/storage/framework/views/*
+/frontend/storage/logs/*
+/frontend/bootstrap/cache/*
+/frontend/public/storage
+!frontend/storage/framework/cache/.gitignore
+!frontend/storage/framework/sessions/.gitignore
+!frontend/storage/framework/views/.gitignore
+!frontend/storage/logs/.gitignore
+!frontend/storage/app/.gitignore
+!frontend/storage/app/public/.gitignore
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+

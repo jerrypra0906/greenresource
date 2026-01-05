@@ -95,20 +95,30 @@
                     </div>
 
                     <div class="field">
-                        <label for="body">
-                            Content Body
-                        </label>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <label for="body">
+                                Content Body
+                            </label>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button type="button" onclick="openImageInsertModal()" style="padding: 0.4rem 0.8rem; background: #059669; color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem;">
+                                    📷 Insert Image
+                                </button>
+                                <button type="button" onclick="openMediaLibraryModal()" style="padding: 0.4rem 0.8rem; background: #3b82f6; color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem;">
+                                    🖼️ Choose from Library
+                                </button>
+                            </div>
+                        </div>
                         <textarea
                             id="body"
                             name="body"
                             rows="8"
-                            placeholder="Enter your content here. HTML is supported."
+                            placeholder="Enter your content here. HTML is supported. Use the buttons above to insert images."
                         >{{ old('body') }}</textarea>
                         @error('body')
                             <span class="field-error">{{ $message }}</span>
                         @enderror
                         <small style="color: #6b7280; font-size: 0.875rem; margin-top: 0.25rem; display: block;">
-                            You can use HTML tags for formatting
+                            You can use HTML tags for formatting. Click "Insert Image" to upload and insert images directly into the content.
                         </small>
                     </div>
 
@@ -203,7 +213,70 @@
     </main>
 </div>
 
+<!-- Image Insert Modal -->
+<div id="imageInsertModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+    <div style="background: white; padding: 2rem; border-radius: 0.5rem; max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h2 style="margin: 0; font-size: 1.25rem;">Upload and Insert Image</h2>
+            <button onclick="closeImageInsertModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+        </div>
+        
+        <div class="field">
+            <label for="body-image-upload">Upload Image</label>
+            <input type="file" id="body-image-upload" accept="image/*" />
+            <small style="color: #6b7280; font-size: 0.875rem; margin-top: 0.25rem; display: block;">
+                Max file size: 10MB
+            </small>
+        </div>
+        
+        <div class="field">
+            <label for="body-image-alt">Alt Text (optional)</label>
+            <input type="text" id="body-image-alt" placeholder="Describe the image" />
+        </div>
+        
+        <div id="body-image-preview" style="margin: 1rem 0; display: none;">
+            <img id="body-preview-img" src="" alt="Preview" style="max-width: 100%; max-height: 200px; border-radius: 0.5rem;" />
+        </div>
+        
+        <div style="display: flex; gap: 0.5rem; margin-top: 1.5rem;">
+            <button onclick="insertUploadedImage()" style="padding: 0.5rem 1rem; background: #059669; color: white; border: none; border-radius: 0.375rem; cursor: pointer;">
+                Insert Image
+            </button>
+            <button onclick="closeImageInsertModal()" style="padding: 0.5rem 1rem; background: #6b7280; color: white; border: none; border-radius: 0.375rem; cursor: pointer;">
+                Cancel
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Media Library Modal -->
+<div id="mediaLibraryModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+    <div style="background: white; padding: 2rem; border-radius: 0.5rem; max-width: 800px; width: 90%; max-height: 90vh; overflow-y: auto;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h2 style="margin: 0; font-size: 1.25rem;">Choose Image from Library</h2>
+            <button onclick="closeMediaLibraryModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+        </div>
+        
+        <div id="media-library-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+            @foreach($media ?? [] as $mediaItem)
+                @if(strpos($mediaItem->mime_type, 'image/') === 0)
+                    <div onclick="insertImageFromLibrary('{{ $mediaItem->url }}', '{{ $mediaItem->alt_text ?? '' }}')" style="cursor: pointer; border: 2px solid #e5e7eb; border-radius: 0.5rem; padding: 0.5rem; transition: border-color 0.2s;" onmouseover="this.style.borderColor='#059669'" onmouseout="this.style.borderColor='#e5e7eb'">
+                        <img src="{{ $mediaItem->url }}" alt="{{ $mediaItem->alt_text ?? '' }}" style="width: 100%; height: 120px; object-fit: cover; border-radius: 0.25rem;" />
+                        <p style="margin: 0.5rem 0 0; font-size: 0.75rem; color: #6b7280; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">{{ $mediaItem->file_name }}</p>
+                    </div>
+                @endif
+            @endforeach
+        </div>
+        
+        <button onclick="closeMediaLibraryModal()" style="padding: 0.5rem 1rem; background: #6b7280; color: white; border: none; border-radius: 0.375rem; cursor: pointer;">
+            Cancel
+        </button>
+    </div>
+</div>
+
 <script>
+let uploadedImageData = null;
+
 function previewImage(input) {
     const preview = document.getElementById('image-preview');
     const previewImg = document.getElementById('preview-img');
@@ -228,6 +301,112 @@ function previewImage(input) {
 function updateSectionFields() {
     // This function can be used for dynamic field updates based on section type
     // Currently kept for compatibility
+}
+
+// Image insertion functions
+let imageUploadListenerAdded = false;
+
+function openImageInsertModal() {
+    document.getElementById('imageInsertModal').style.display = 'flex';
+    uploadedImageData = null;
+    document.getElementById('body-image-upload').value = '';
+    document.getElementById('body-image-alt').value = '';
+    document.getElementById('body-image-preview').style.display = 'none';
+    
+    // Preview uploaded image (only add listener once)
+    if (!imageUploadListenerAdded) {
+        document.getElementById('body-image-upload').addEventListener('change', function(e) {
+            if (e.target.files && e.target.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('body-preview-img').src = event.target.result;
+                    document.getElementById('body-image-preview').style.display = 'block';
+                };
+                reader.readAsDataURL(e.target.files[0]);
+            }
+        });
+        imageUploadListenerAdded = true;
+    }
+}
+
+function closeImageInsertModal() {
+    document.getElementById('imageInsertModal').style.display = 'none';
+}
+
+function openMediaLibraryModal() {
+    document.getElementById('mediaLibraryModal').style.display = 'flex';
+}
+
+function closeMediaLibraryModal() {
+    document.getElementById('mediaLibraryModal').style.display = 'none';
+}
+
+function insertUploadedImage() {
+    const fileInput = document.getElementById('body-image-upload');
+    const altText = document.getElementById('body-image-alt').value;
+    
+    if (!fileInput.files || !fileInput.files[0]) {
+        alert('Please select an image file first.');
+        return;
+    }
+    
+    const formData = new FormData();
+    formData.append('file', fileInput.files[0]);
+    if (altText) {
+        formData.append('alt_text', altText);
+    }
+    
+    // Show loading state
+    const insertBtn = event.target;
+    const originalText = insertBtn.textContent;
+    insertBtn.textContent = 'Uploading...';
+    insertBtn.disabled = true;
+    
+    fetch('{{ route("media.upload") }}', {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            insertImageIntoBody(data.url, altText || data.media.alt_text || '');
+            closeImageInsertModal();
+        } else {
+            alert('Failed to upload image. Please try again.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while uploading the image.');
+    })
+    .finally(() => {
+        insertBtn.textContent = originalText;
+        insertBtn.disabled = false;
+    });
+}
+
+function insertImageFromLibrary(url, altText) {
+    insertImageIntoBody(url, altText);
+    closeMediaLibraryModal();
+}
+
+function insertImageIntoBody(imageUrl, altText) {
+    const textarea = document.getElementById('body');
+    const cursorPos = textarea.selectionStart;
+    const textBefore = textarea.value.substring(0, cursorPos);
+    const textAfter = textarea.value.substring(cursorPos);
+    
+    const imageHtml = `<img src="${imageUrl}" alt="${altText.replace(/"/g, '&quot;')}" style="max-width: 100%; height: auto;" />`;
+    
+    textarea.value = textBefore + imageHtml + textAfter;
+    
+    // Set cursor position after inserted image
+    const newCursorPos = cursorPos + imageHtml.length;
+    textarea.setSelectionRange(newCursorPos, newCursorPos);
+    textarea.focus();
 }
 </script>
 @endsection

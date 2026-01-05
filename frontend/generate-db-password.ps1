@@ -1,7 +1,10 @@
 # Generate Secure Database Password
 # This script generates a secure random password for PostgreSQL
 
-$password = -join ((48..57) + (65..90) + (97..122) + (33..47) | Get-Random -Count 32 | ForEach-Object {[char]$_})
+# Generate password without $ character (which Docker interprets as variable)
+# Using: numbers, uppercase, lowercase, and safe special characters (no $)
+$safeChars = (48..57) + (65..90) + (97..122) + @(33, 35, 37, 38, 42, 43, 45, 46, 58, 61, 63, 64, 94, 95, 126)
+$password = -join ($safeChars | Get-Random -Count 32 | ForEach-Object {[char]$_})
 
 Write-Host "=========================================" -ForegroundColor Cyan
 Write-Host "Generated Secure Database Password" -ForegroundColor Cyan

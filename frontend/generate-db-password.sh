@@ -2,7 +2,9 @@
 # Generate Secure Database Password
 # This script generates a secure random password for PostgreSQL
 
-PASSWORD=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-32)
+# Generate password without $ character (which Docker interprets as variable)
+# Using base64 but removing problematic characters: $ = + / and limiting to 32 chars
+PASSWORD=$(openssl rand -base64 32 | tr -d "=+/\$" | cut -c1-32)
 
 echo "========================================="
 echo "Generated Secure Database Password"

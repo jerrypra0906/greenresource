@@ -2,6 +2,8 @@
 
 ## Generate a Secure Password
 
+**IMPORTANT:** The password generator now creates passwords WITHOUT `$` characters, as Docker Compose interprets `$` as a variable.
+
 ### On Windows (PowerShell):
 ```powershell
 .\generate-db-password.ps1
@@ -17,39 +19,46 @@ chmod +x generate-db-password.sh
 You can also use online tools or generate manually:
 - Use at least 32 characters
 - Include uppercase, lowercase, numbers, and special characters
+- **DO NOT use `$` character** - Docker Compose will interpret it as a variable
 - Avoid dictionary words or personal information
 
 ## Update Configuration Files
 
 After generating a secure password, update it in these locations:
 
-### 1. docker-compose.yml
+### 1. Create .env.docker file (Recommended)
 
-Update both occurrences:
-```yaml
-# In postgres service:
-POSTGRES_PASSWORD: your_secure_password_here
+Docker Compose automatically reads from `.env.docker` file:
 
-# In app service environment:
-- DB_PASSWORD=your_secure_password_here
-```
-
-Or use environment variable (recommended):
-```yaml
-POSTGRES_PASSWORD: ${DB_PASSWORD}
-- DB_PASSWORD=${DB_PASSWORD}
-```
-
-Then set the environment variable:
 ```bash
-export DB_PASSWORD="your_secure_password_here"
+cd ~/greenresource/frontend
+cp env.docker.example .env.docker
+nano .env.docker
 ```
 
-### 2. .env file
+Update the password:
+```env
+DB_PASSWORD=your_secure_password_here
+```
+
+**Important:** Make sure the password does NOT contain `$` character, as Docker Compose will try to interpret it as a variable.
+
+### 2. .env file (for Laravel application)
 
 ```env
 DB_PASSWORD=your_secure_password_here
 ```
+
+### Alternative: Set Environment Variable
+
+You can also set it as an environment variable before running docker-compose:
+
+```bash
+export DB_PASSWORD="your_secure_password_here"
+docker-compose up -d
+```
+
+**Note:** If your password contains special characters, make sure to quote it properly.
 
 ## Security Best Practices
 

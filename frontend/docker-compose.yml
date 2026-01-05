@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_DB: greenresource
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-CHANGE_THIS_TO_SECURE_PASSWORD}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
       PGDATA: /var/lib/postgresql/data/pgdata
     ports:
       - "5434:5432"
@@ -43,7 +43,7 @@ services:
       - DB_PORT=5432
       - DB_DATABASE=greenresource
       - DB_USERNAME=postgres
-      - DB_PASSWORD=${DB_PASSWORD:-CHANGE_THIS_TO_SECURE_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD}
 
   # Nginx Web Server
   nginx:

@@ -3,6 +3,7 @@
 /frontend/node_modules/
 /frontend/.env
 /frontend/.env.backup
+/frontend/.env.docker
 /frontend/.phpunit.result.cache
 /frontend/storage/*.key
 /frontend/storage/framework/cache/*

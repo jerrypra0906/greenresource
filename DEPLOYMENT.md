@@ -62,8 +62,20 @@ cd greenresource/frontend
 #### Step 4: Configure Environment
 
 ```bash
-# Copy environment file
-cp .env.example .env
+# Copy environment file template
+cp env.example.template .env
+
+# Create Docker environment file for password
+cp env.docker.example .env.docker
+
+# Generate secure password (optional - generates password without $ character)
+chmod +x generate-db-password.sh
+./generate-db-password.sh
+# Copy the generated password
+
+# Edit .env.docker file with your secure password
+nano .env.docker
+# Set: DB_PASSWORD=your_generated_secure_password
 
 # Edit .env file with your production settings
 nano .env
@@ -81,10 +93,15 @@ DB_PORT=5432
 DB_DATABASE=greenresource
 DB_USERNAME=postgres
 DB_PASSWORD=your_secure_password_here
+# Use the SAME password as in .env.docker
 
-# Generate application key
-php artisan key:generate
+# Generate application key (will be done in container)
 ```
+
+**IMPORTANT:** 
+- The password in `.env.docker` and `.env` must match
+- Do NOT use `$` character in password (Docker Compose interprets it as variable)
+- Use the password generator script to create a safe password
 
 #### Step 5: Build and Start Containers
 

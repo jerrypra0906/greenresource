@@ -114,16 +114,20 @@ DB_PASSWORD=your_secure_password_here
 # Build and start all services
 docker-compose up -d --build
 
+# Wait for containers to be ready
+sleep 10
+
+# Ensure bootstrap/cache directory exists and has proper permissions
+docker-compose exec app mkdir -p bootstrap/cache
+docker-compose exec app chown -R www-data:www-data storage bootstrap/cache
+docker-compose exec app chmod -R 775 storage bootstrap/cache
+
 # Run migrations
 docker-compose exec app php artisan migrate
 docker-compose exec app php artisan db:seed --class=AdminUserSeeder
 
 # Create storage link
 docker-compose exec app php artisan storage:link
-
-# Set proper permissions
-docker-compose exec app chown -R www-data:www-data storage bootstrap/cache
-docker-compose exec app chmod -R 775 storage bootstrap/cache
 ```
 
 #### Step 6: Configure Firewall

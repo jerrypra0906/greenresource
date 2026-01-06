@@ -10,10 +10,18 @@ done
 
 >&2 echo "PostgreSQL is up - executing command"
 
+# Create necessary directories if they don't exist
+echo "Creating necessary directories..."
+mkdir -p /var/www/html/bootstrap/cache
+mkdir -p /var/www/html/storage/framework/cache/data
+mkdir -p /var/www/html/storage/framework/sessions
+mkdir -p /var/www/html/storage/framework/views
+mkdir -p /var/www/html/storage/logs
+
 # Set permissions first (as root)
 echo "Setting permissions..."
-chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache 2>/dev/null || true
-chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache 2>/dev/null || true
+chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Create OPcache directory
 mkdir -p /var/www/html/storage/framework/cache/opcache 2>/dev/null || true

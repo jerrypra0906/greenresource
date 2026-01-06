@@ -117,8 +117,12 @@ docker-compose up -d --build
 # Wait for containers to be ready
 sleep 10
 
-# Ensure bootstrap/cache directory exists and has proper permissions
+# Ensure all required directories exist and have proper permissions
 docker-compose exec app mkdir -p bootstrap/cache
+docker-compose exec app mkdir -p storage/framework/cache/data
+docker-compose exec app mkdir -p storage/framework/sessions
+docker-compose exec app mkdir -p storage/framework/views
+docker-compose exec app mkdir -p storage/logs
 docker-compose exec app chown -R www-data:www-data storage bootstrap/cache
 docker-compose exec app chmod -R 775 storage bootstrap/cache
 
@@ -515,6 +519,18 @@ docker-compose exec app chmod -R 775 storage bootstrap/cache
   docker-compose exec app chown -R www-data:www-data bootstrap/cache
   docker-compose exec app chmod -R 775 bootstrap/cache
   docker-compose exec app php artisan config:clear
+  ```
+
+**Error: "Failed to open stream: No such file or directory" for sessions**
+- This means `storage/framework/sessions` directory doesn't exist
+- Solution:
+  ```bash
+  docker-compose exec app mkdir -p storage/framework/sessions
+  docker-compose exec app mkdir -p storage/framework/cache/data
+  docker-compose exec app mkdir -p storage/framework/views
+  docker-compose exec app mkdir -p storage/logs
+  docker-compose exec app chown -R www-data:www-data storage
+  docker-compose exec app chmod -R 775 storage
   ```
 
 #### 5. Clear Cache and Config

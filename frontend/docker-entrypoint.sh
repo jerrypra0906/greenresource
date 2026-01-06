@@ -16,6 +16,7 @@ mkdir -p /var/www/html/bootstrap/cache
 mkdir -p /var/www/html/storage/framework/cache/data
 mkdir -p /var/www/html/storage/framework/sessions
 mkdir -p /var/www/html/storage/framework/views
+mkdir -p /var/www/html/storage/framework/testing
 mkdir -p /var/www/html/storage/logs
 
 # Set permissions first (as root)

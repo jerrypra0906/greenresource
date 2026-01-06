@@ -122,6 +122,13 @@ docker-compose exec app mkdir -p bootstrap/cache
 docker-compose exec app chown -R www-data:www-data storage bootstrap/cache
 docker-compose exec app chmod -R 775 storage bootstrap/cache
 
+# Generate application key (CRITICAL - must be done before migrations)
+docker-compose exec app php artisan key:generate
+
+# Clear any cached config that might have wrong paths
+docker-compose exec app php artisan config:clear
+docker-compose exec app php artisan cache:clear
+
 # Run migrations
 docker-compose exec app php artisan migrate
 docker-compose exec app php artisan db:seed --class=AdminUserSeeder
@@ -440,6 +447,98 @@ docker-compose exec nginx nginx -t
 
 # Check if nginx can access the app container
 docker-compose exec nginx wget -O- http://app:9000
+```
+
+### 500 Internal Server Error
+
+If you see a 500 error when accessing the site, check the following:
+
+#### 1. Check Application Logs
+
+```bash
+# Check Laravel application logs
+docker-compose exec app tail -n 50 storage/logs/laravel.log
+
+# Or view all app logs
+docker-compose logs app --tail=100
+
+# Check for specific errors
+docker-compose exec app cat storage/logs/laravel.log | grep -i error
+```
+
+#### 2. Check if APP_KEY is Set
+
+```bash
+# Check if APP_KEY exists in .env
+docker-compose exec app grep APP_KEY .env
+
+# If missing or empty, generate it
+docker-compose exec app php artisan key:generate
+
+# After generating, clear config cache
+docker-compose exec app php artisan config:clear
+```
+
+**Error: "No application encryption key has been specified"**
+- This is a critical error that prevents Laravel from running
+- Solution: Run `docker-compose exec app php artisan key:generate`
+- Then clear config cache: `docker-compose exec app php artisan config:clear`
+
+#### 3. Check Database Connection
+
+```bash
+# Test database connection
+docker-compose exec app php artisan tinker
+# Then run: DB::connection()->getPdo();
+
+# Or check connection directly
+docker-compose exec app php artisan migrate:status
+```
+
+#### 4. Check File Permissions
+
+```bash
+# Ensure storage and cache directories are writable
+docker-compose exec app ls -la storage
+docker-compose exec app ls -la bootstrap/cache
+
+# Fix permissions if needed
+docker-compose exec app chown -R www-data:www-data storage bootstrap/cache
+docker-compose exec app chmod -R 775 storage bootstrap/cache
+```
+
+**Error: "Please provide a valid cache path"**
+- This means `bootstrap/cache` directory doesn't exist or isn't writable
+- Solution:
+  ```bash
+  docker-compose exec app mkdir -p bootstrap/cache
+  docker-compose exec app chown -R www-data:www-data bootstrap/cache
+  docker-compose exec app chmod -R 775 bootstrap/cache
+  docker-compose exec app php artisan config:clear
+  ```
+
+#### 5. Clear Cache and Config
+
+```bash
+# Clear all caches
+docker-compose exec app php artisan cache:clear
+docker-compose exec app php artisan config:clear
+docker-compose exec app php artisan route:clear
+docker-compose exec app php artisan view:clear
+
+# Rebuild cache
+docker-compose exec app php artisan config:cache
+docker-compose exec app php artisan route:cache
+```
+
+#### 6. Check Environment Configuration
+
+```bash
+# Verify .env file exists and has correct values
+docker-compose exec app cat .env
+
+# Check if .env.docker is loaded correctly
+docker-compose exec app env | grep DB_
 ```
 
 ### Check Application Logs

@@ -54,6 +54,11 @@ docker-compose --version
 #### Step 3: Clone Repository
 
 ```bash
+# Create /var/www directory if it doesn't exist
+sudo mkdir -p /var/www
+sudo chown $USER:$USER /var/www
+
+# Clone the repository
 cd /var/www
 git clone https://github.com/jerrypra0906/greenresource.git
 cd greenresource/frontend
@@ -167,8 +172,13 @@ sudo mv composer.phar /usr/local/bin/composer
 #### Step 2: Clone and Setup Application
 
 ```bash
+# Create /var/www directory if it doesn't exist
+sudo mkdir -p /var/www
+sudo chown $USER:$USER /var/www
+
+# Clone the repository
 cd /var/www
-sudo git clone https://github.com/jerrypra0906/greenresource.git
+git clone https://github.com/jerrypra0906/greenresource.git
 cd greenresource/frontend
 
 # Install dependencies

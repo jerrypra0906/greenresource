@@ -32,6 +32,13 @@ COPY docker/php/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 # Copy existing application directory contents
 COPY . /var/www/html
 
+# Create necessary directories if they don't exist
+RUN mkdir -p /var/www/html/storage/framework/cache/data \
+    /var/www/html/storage/framework/sessions \
+    /var/www/html/storage/framework/views \
+    /var/www/html/storage/logs \
+    /var/www/html/bootstrap/cache
+
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache

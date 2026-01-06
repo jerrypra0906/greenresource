@@ -362,6 +362,29 @@ sudo crontab -e
 
 ### Site Can't Be Reached (Connection Refused)
 
+If you can't access `http://172.28.80.101:8000` from your laptop/browser (but it works on the server), this is a network/firewall issue.
+
+**Quick Diagnostic Commands (run on server):**
+
+```bash
+# 1. Check if port is listening on all interfaces (0.0.0.0)
+ss -tuln | grep 8000
+# Should show: tcp 0.0.0.0:8000 LISTEN
+
+# 2. Check firewall status
+sudo ufw status
+# OR for CentOS/RHEL
+sudo firewall-cmd --list-ports
+
+# 3. Check if containers are running
+docker-compose ps
+```
+
+**Most Common Issue: Alibaba Cloud Security Group**
+- 90% of the time, this is the problem
+- You MUST add a security group rule in Alibaba Cloud Console
+- See Step 3 below for detailed instructions
+
 If you can't access `http://172.28.80.101:8000`, follow these steps:
 
 #### 1. Check if Containers are Running
@@ -391,7 +414,17 @@ netstat -tuln | grep 8000
 # OR
 ss -tuln | grep 8000
 
-# Should show: tcp 0.0.0.0:8000 LISTEN
+# Should show: tcp 0.0.0.0:8000 LISTEN (NOT 127.0.0.1:8000)
+# If it shows 127.0.0.1:8000, the port is only accessible locally
+```
+
+**Important:** The port must be listening on `0.0.0.0:8000` (all interfaces), not `127.0.0.1:8000` (localhost only).
+
+If it's only listening on 127.0.0.1, check docker-compose.yml port mapping:
+```bash
+# Verify port mapping in docker-compose.yml
+grep -A 2 "ports:" docker-compose.yml
+# Should show: - "8000:80" (not "127.0.0.1:8000:80")
 ```
 
 If port 8000 is not listening, check nginx container:

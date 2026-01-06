@@ -349,11 +349,109 @@ sudo crontab -e
 
 ## Troubleshooting
 
+### Site Can't Be Reached (Connection Refused)
+
+If you can't access `http://172.28.80.101:8000`, follow these steps:
+
+#### 1. Check if Containers are Running
+
+```bash
+cd /var/www/greenresource/frontend
+docker-compose ps
+```
+
+All three containers (postgres, app, nginx) should show "Up" status. If any are down:
+
+```bash
+# Check logs for errors
+docker-compose logs nginx
+docker-compose logs app
+docker-compose logs postgres
+
+# Restart containers
+docker-compose restart
+```
+
+#### 2. Check if Port 8000 is Listening
+
+```bash
+# Check if port 8000 is open and listening
+netstat -tuln | grep 8000
+# OR
+ss -tuln | grep 8000
+
+# Should show: tcp 0.0.0.0:8000 LISTEN
+```
+
+If port 8000 is not listening, check nginx container:
+
+```bash
+docker-compose exec nginx nginx -t
+docker-compose restart nginx
+```
+
+#### 3. Check Alibaba Cloud Security Group
+
+**IMPORTANT:** Alibaba Cloud ECS requires security group rules to allow inbound traffic.
+
+1. Log in to Alibaba Cloud Console
+2. Go to **ECS** → **Instances** → Select your instance
+3. Click **Security Groups** → **Configure Rules**
+4. Add an **Inbound Rule**:
+   - **Port Range:** 8000/8000
+   - **Protocol:** TCP
+   - **Source:** 0.0.0.0/0 (or your specific IP for security)
+   - **Description:** Allow HTTP on port 8000
+
+#### 4. Check Firewall on Server
+
+```bash
+# Check firewall status
+sudo ufw status
+
+# If firewall is active, allow port 8000
+sudo ufw allow 8000/tcp
+sudo ufw reload
+
+# For CentOS/RHEL, check firewalld
+sudo firewall-cmd --list-ports
+sudo firewall-cmd --permanent --add-port=8000/tcp
+sudo firewall-cmd --reload
+```
+
+#### 5. Test from Server Itself
+
+```bash
+# Test if nginx is responding locally
+curl http://localhost:8000
+
+# Test if app container is reachable from nginx
+docker-compose exec nginx ping -c 2 app
+
+# Check nginx error logs
+docker-compose exec nginx cat /var/log/nginx/error.log
+```
+
+#### 6. Verify Nginx Configuration
+
+```bash
+# Test nginx configuration
+docker-compose exec nginx nginx -t
+
+# Check if nginx can access the app container
+docker-compose exec nginx wget -O- http://app:9000
+```
+
 ### Check Application Logs
 
 ```bash
 # Docker
 docker-compose logs app
+docker-compose logs nginx
+docker-compose logs postgres
+
+# Follow logs in real-time
+docker-compose logs -f app
 
 # Traditional
 tail -f storage/logs/laravel.log
@@ -362,14 +460,26 @@ tail -f storage/logs/laravel.log
 ### Check Nginx Logs
 
 ```bash
+# Docker
+docker-compose exec nginx tail -f /var/log/nginx/error.log
+docker-compose exec nginx tail -f /var/log/nginx/access.log
+
+# Traditional
 sudo tail -f /var/log/nginx/error.log
 ```
 
 ### Restart Services
 
 ```bash
-# Docker
+# Docker - Restart all services
 docker-compose restart
+
+# Docker - Restart specific service
+docker-compose restart nginx
+docker-compose restart app
+
+# Docker - Rebuild and restart
+docker-compose up -d --build
 
 # Traditional
 sudo systemctl restart nginx

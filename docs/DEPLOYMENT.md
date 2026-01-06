@@ -436,16 +436,51 @@ docker-compose restart nginx
 
 #### 3. Check Alibaba Cloud Security Group
 
-**IMPORTANT:** Alibaba Cloud ECS requires security group rules to allow inbound traffic.
+**IMPORTANT:** Alibaba Cloud ECS requires security group rules to allow inbound traffic. This is the MOST COMMON cause of external access issues.
 
-1. Log in to Alibaba Cloud Console
-2. Go to **ECS** → **Instances** → Select your instance
-3. Click **Security Groups** → **Configure Rules**
-4. Add an **Inbound Rule**:
-   - **Port Range:** 8000/8000
-   - **Protocol:** TCP
-   - **Source:** 0.0.0.0/0 (or your specific IP for security)
-   - **Description:** Allow HTTP on port 8000
+**Step-by-step instructions:**
+
+1. **Log in to Alibaba Cloud Console:**
+   - Go to: https://ecs.console.aliyun.com
+   - Log in with your Alibaba Cloud account
+
+2. **Navigate to your ECS instance:**
+   - Click **ECS** → **Instances** in the left menu
+   - Find your instance (IP: 172.28.80.101)
+   - Click on the instance ID or name
+
+3. **Access Security Group settings:**
+   - In the instance details page, find the **Security Groups** section
+   - Click on the security group name (it's a clickable link)
+   - OR click **More** → **Network and Security Group** → **Security Group Rules**
+
+4. **Check existing inbound rules:**
+   - Click **Inbound** tab
+   - Look for a rule allowing port 8000
+   - If it doesn't exist, you need to add it
+
+5. **Add Inbound Rule (if missing):**
+   - Click **Add Rule** or **Create Rule**
+   - Configure:
+     - **Port Range:** `8000/8000` (or just `8000`)
+     - **Protocol:** `TCP`
+     - **Authorization Object:** `0.0.0.0/0` (allows from anywhere) OR your specific IP for better security
+     - **Description:** `Allow HTTP on port 8000`
+   - Click **Save** or **OK**
+
+6. **Verify the rule is active:**
+   - The rule should appear in the inbound rules list
+   - Status should be **Enabled**
+
+**Common issues:**
+- Rule exists but is disabled → Enable it
+- Rule exists but source is wrong → Edit to allow `0.0.0.0/0` (temporarily for testing)
+- Multiple security groups → Make sure the rule is in the security group attached to your instance
+
+**Alternative method (if above doesn't work):**
+- Go to **ECS** → **Network & Security** → **Security Groups**
+- Find the security group attached to your instance
+- Click **Configure Rules** → **Inbound** → **Add Rule**
 
 #### 4. Check Firewall on Server
 
@@ -484,6 +519,42 @@ docker-compose exec nginx nginx -t
 
 # Check if nginx can access the app container
 docker-compose exec nginx wget -O- http://app:9000
+```
+
+#### 7. Verify Port is Listening on All Interfaces
+
+```bash
+# Check if port 8000 is listening on 0.0.0.0 (all interfaces)
+ss -tuln | grep 8000
+
+# Should show: tcp 0.0.0.0:8000 LISTEN
+# If it shows 127.0.0.1:8000, Docker is only binding to localhost
+
+# If it's only on 127.0.0.1, check docker-compose.yml
+cd /var/www/greenresource/frontend
+grep -A 2 "ports:" docker-compose.yml
+# Should show: - "8000:80" (NOT "127.0.0.1:8000:80")
+
+# If wrong, fix it and restart:
+docker-compose down
+docker-compose up -d
+```
+
+#### 8. Test Connectivity from External Network
+
+**From your laptop, test if the port is reachable:**
+
+```bash
+# Windows PowerShell
+Test-NetConnection -ComputerName 172.28.80.101 -Port 8000
+
+# Linux/Mac
+telnet 172.28.80.101 8000
+# OR
+nc -zv 172.28.80.101 8000
+
+# If connection times out or is refused, it's a security group issue
+# If connection succeeds but site doesn't load, it's an application issue
 ```
 
 ### 500 Internal Server Error

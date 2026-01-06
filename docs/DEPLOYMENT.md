@@ -722,11 +722,44 @@ php artisan view:cache
 ### Clear Cache
 
 ```bash
+# Docker
+docker-compose exec app php artisan cache:clear
+docker-compose exec app php artisan config:clear
+docker-compose exec app php artisan route:clear
+docker-compose exec app php artisan view:clear
+
+# Traditional
 php artisan cache:clear
 php artisan config:clear
 php artisan route:clear
 php artisan view:clear
 ```
+
+### Route Not Found (404 Errors)
+
+If you get "404 Not Found" errors when accessing routes:
+
+```bash
+# 1. Clear route cache
+docker-compose exec app php artisan route:clear
+
+# 2. List all registered routes to verify they exist
+docker-compose exec app php artisan route:list
+
+# 3. Check if routes are cached (should not be in development)
+docker-compose exec app php artisan route:cache
+
+# 4. Clear all caches
+docker-compose exec app php artisan optimize:clear
+
+# 5. Verify nginx is passing requests to Laravel correctly
+docker-compose exec nginx cat /var/log/nginx/error.log | tail -20
+```
+
+**Common issues:**
+- Routes are cached with old configuration → Run `php artisan route:clear`
+- Nginx not passing requests to PHP-FPM → Check nginx error logs
+- APP_URL in .env doesn't match actual URL → Update APP_URL in .env file
 
 ## Security Checklist
 

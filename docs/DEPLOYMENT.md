@@ -135,7 +135,12 @@ docker-compose exec app php artisan cache:clear
 
 # Run migrations
 docker-compose exec app php artisan migrate
-docker-compose exec app php artisan db:seed --class=AdminUserSeeder
+
+# Seed database with initial data (pages and admin user)
+docker-compose exec app php artisan db:seed
+# OR seed individually:
+# docker-compose exec app php artisan db:seed --class=PageSeeder
+# docker-compose exec app php artisan db:seed --class=AdminUserSeeder
 
 # Create storage link
 docker-compose exec app php artisan storage:link
@@ -760,6 +765,35 @@ docker-compose exec nginx cat /var/log/nginx/error.log | tail -20
 - Routes are cached with old configuration → Run `php artisan route:clear`
 - Nginx not passing requests to PHP-FPM → Check nginx error logs
 - APP_URL in .env doesn't match actual URL → Update APP_URL in .env file
+
+### Page Not Found (CMS Pages Not Set Up)
+
+If you see "Page not found" errors, the pages haven't been created in the database yet:
+
+```bash
+# Run the PageSeeder to create all required pages
+docker-compose exec app php artisan db:seed --class=PageSeeder
+
+# Verify pages were created
+docker-compose exec app php artisan tinker
+# Then run: \App\Models\Page::all(['slug', 'title', 'status']);
+
+# Or check via SQL
+docker-compose exec postgres psql -U postgres -d greenresource -c "SELECT slug, title, status FROM pages;"
+```
+
+**Pages that will be created:**
+- `home` - Home page
+- `company-about-us` - About Us page
+- `company-location` - Location page
+- `products-feedstocks` - Feedstocks page
+- `products-methyl-ester` - Methyl Ester page
+- `products-others` - Other Products page
+- `news-and-event-news` - News page
+- `news-and-event-event` - Events page
+- `contact` - Contact page
+
+**Note:** After running the seeder, you can edit these pages through the CMS admin panel at `/admin/pages`.
 
 ## Security Checklist
 

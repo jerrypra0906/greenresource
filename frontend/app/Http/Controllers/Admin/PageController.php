@@ -43,11 +43,20 @@ class PageController extends Controller
             'banner_image_file' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
         ]);
 
+        // Normalize slug (trim and lowercase for case-insensitive handling)
+        $normalizedSlug = trim(strtolower($validated['slug']));
+        
+        // Check for duplicate (case-insensitive)
+        $existing = Page::whereRaw('LOWER(TRIM(slug)) = ?', [$normalizedSlug])->first();
+        if ($existing) {
+            return back()->withErrors(['slug' => 'A page with this slug already exists.']);
+        }
+        
         $data = [
-            'slug' => $validated['slug'],
-            'title' => $validated['title'],
-            'meta_title' => $validated['meta_title'] ?? null,
-            'meta_description' => $validated['meta_description'] ?? null,
+            'slug' => $normalizedSlug,
+            'title' => trim($validated['title']),
+            'meta_title' => $validated['meta_title'] ? trim($validated['meta_title']) : null,
+            'meta_description' => $validated['meta_description'] ? trim($validated['meta_description']) : null,
             'status' => $validated['status'],
         ];
         
@@ -115,11 +124,22 @@ class PageController extends Controller
             'banner_image_file' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
         ]);
 
+        // Normalize slug (trim and lowercase for case-insensitive handling)
+        $normalizedSlug = trim(strtolower($validated['slug']));
+        
+        // Check for duplicate (case-insensitive), excluding current page
+        $existing = Page::where('id', '!=', $page->id)
+            ->whereRaw('LOWER(TRIM(slug)) = ?', [$normalizedSlug])
+            ->first();
+        if ($existing) {
+            return back()->withErrors(['slug' => 'A page with this slug already exists.']);
+        }
+        
         $data = [
-            'slug' => $validated['slug'],
-            'title' => $validated['title'],
-            'meta_title' => $validated['meta_title'] ?? null,
-            'meta_description' => $validated['meta_description'] ?? null,
+            'slug' => $normalizedSlug,
+            'title' => trim($validated['title']),
+            'meta_title' => $validated['meta_title'] ? trim($validated['meta_title']) : null,
+            'meta_description' => $validated['meta_description'] ? trim($validated['meta_description']) : null,
             'status' => $validated['status'],
         ];
         

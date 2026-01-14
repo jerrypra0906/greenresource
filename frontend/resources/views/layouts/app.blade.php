@@ -27,31 +27,75 @@
                     <span></span>
                 </button>
                 <ul class="nav-links" data-nav-links>
-                    <li class="nav-dropdown">
-                        <a href="#">Company</a>
-                        <ul class="nav-dropdown-menu">
-                            <li><a href="{{ route('company.about-us') }}">About Us</a></li>
-                            <li><a href="{{ route('company.location') }}">Location</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-dropdown">
-                        <a href="#">Products</a>
-                        <ul class="nav-dropdown-menu">
-                            <li><a href="{{ route('products.feedstocks') }}">Feedstocks</a></li>
-                            <li><a href="{{ route('products.methyl-ester') }}">Methyl Ester</a></li>
-                            <li><a href="{{ route('products.others') }}">Others</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-dropdown">
-                        <a href="#">News and Event</a>
-                        <ul class="nav-dropdown-menu">
-                            <li><a href="{{ route('news-and-event.news') }}">News</a></li>
-                            <li><a href="{{ route('news-and-event.event') }}">Event</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="{{ route('contact') }}">Contact Us</a>
-                    </li>
+                    @if(isset($menuItems) && $menuItems->count() > 0)
+                        {{-- Database-driven navigation --}}
+                        @foreach($menuItems as $item)
+                            @php
+                                $itemUrl = '#';
+                                if ($item->target_url !== '#') {
+                                    if (str_starts_with($item->target_url, 'http')) {
+                                        $itemUrl = $item->target_url;
+                                    } else {
+                                        try {
+                                            $itemUrl = route($item->target_url);
+                                        } catch (\Exception $e) {
+                                            $itemUrl = $item->target_url;
+                                        }
+                                    }
+                                }
+                            @endphp
+                            @if($item->children->count() > 0)
+                                <li class="nav-dropdown">
+                                    <a href="{{ $itemUrl }}">{{ $item->label }}</a>
+                                    <ul class="nav-dropdown-menu">
+                                        @foreach($item->children as $child)
+                                            @php
+                                                $childUrl = '#';
+                                                if ($child->target_url !== '#') {
+                                                    if (str_starts_with($child->target_url, 'http')) {
+                                                        $childUrl = $child->target_url;
+                                                    } else {
+                                                        try {
+                                                            $childUrl = route($child->target_url);
+                                                        } catch (\Exception $e) {
+                                                            $childUrl = $child->target_url;
+                                                        }
+                                                    }
+                                                }
+                                            @endphp
+                                            <li>
+                                                <a href="{{ $childUrl }}">{{ $child->label }}</a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </li>
+                            @else
+                                <li>
+                                    <a href="{{ $itemUrl }}">{{ $item->label }}</a>
+                                </li>
+                            @endif
+                        @endforeach
+                    @else
+                        {{-- Fallback: Hardcoded navigation --}}
+                        <li class="nav-dropdown">
+                            <a href="#">Company</a>
+                            <ul class="nav-dropdown-menu">
+                                <li><a href="{{ route('company.about-us') }}">About Us</a></li>
+                                <li><a href="{{ route('company.location') }}">Location</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-dropdown">
+                            <a href="#">Product</a>
+                            <ul class="nav-dropdown-menu">
+                                <li><a href="{{ route('product.feedstocks') }}">Feedstocks</a></li>
+                                <li><a href="{{ route('product.methyl-ester') }}">Methyl Ester</a></li>
+                                <li><a href="{{ route('product.other') }}">Other</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="{{ route('contact-us.fulfill-form') }}">Contact Us</a>
+                        </li>
+                    @endif
                 </ul>
             </nav>
         </div>
@@ -77,16 +121,15 @@
                     <h3 class="footer-heading">Quick Links</h3>
                     <ul class="footer-links">
                         <li><a href="{{ route('company.about-us') }}">About Us</a></li>
-                        <li><a href="{{ route('products.feedstocks') }}">Products</a></li>
-                        <li><a href="{{ route('news-and-event.news') }}">News & Event</a></li>
-                        <li><a href="{{ route('contact') }}">Contact</a></li>
+                        <li><a href="{{ route('product.feedstocks') }}">Products</a></li>
+                        <li><a href="{{ route('contact-us.fulfill-form') }}">Contact</a></li>
                     </ul>
                 </div>
                 <div>
                     <h3 class="footer-heading">Connect</h3>
                     <ul class="footer-links">
-                        <li><a href="{{ route('news-and-event.news') }}">News</a></li>
-                        <li><a href="{{ route('news-and-event.event') }}">Events</a></li>
+                        <li><a href="{{ route('contact-us.fulfill-form') }}">Contact Form</a></li>
+                        <li><a href="{{ route('contact-us.contacts') }}">Contacts</a></li>
                     </ul>
                 </div>
             </div>

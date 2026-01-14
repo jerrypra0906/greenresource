@@ -4,17 +4,24 @@ namespace Database\Seeders;
 
 use App\Models\Page;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class PageSeeder extends Seeder
 {
     /**
      * Run the database seeds.
+     * Creates all required pages with case-insensitive, trimmed slug handling.
      */
     public function run(): void
     {
+        // Helper function to normalize slug (case-insensitive, trimmed)
+        $normalizeSlug = function ($slug) {
+            return trim(strtolower($slug));
+        };
+
         $pages = [
             [
-                'slug' => 'home',
+                'slug' => $normalizeSlug('home'),
                 'title' => 'Home',
                 'meta_title' => 'Green Resources – Sustainable Solutions',
                 'meta_description' => 'Green Resources is a modern, sustainable organization committed to excellence and environmental responsibility.',
@@ -26,7 +33,7 @@ class PageSeeder extends Seeder
                 ]
             ],
             [
-                'slug' => 'company-about-us',
+                'slug' => $normalizeSlug('company-about-us'),
                 'title' => 'About Us',
                 'meta_title' => 'About Us – Green Resources',
                 'meta_description' => 'Learn about Green Resources, our mission, values, and commitment to sustainability.',
@@ -38,7 +45,7 @@ class PageSeeder extends Seeder
                 ]
             ],
             [
-                'slug' => 'company-location',
+                'slug' => $normalizeSlug('company-location'),
                 'title' => 'Location',
                 'meta_title' => 'Location – Green Resources',
                 'meta_description' => 'Find our office locations and contact information.',
@@ -50,7 +57,31 @@ class PageSeeder extends Seeder
                 ]
             ],
             [
-                'slug' => 'products-feedstocks',
+                'slug' => $normalizeSlug('company-sustainability'),
+                'title' => 'Sustainability',
+                'meta_title' => 'Sustainability – Green Resources',
+                'meta_description' => 'Our commitment to sustainable practices and environmental responsibility.',
+                'status' => 'published',
+                'banner' => [
+                    'title' => 'Sustainability',
+                    'subtitle' => 'Our Environmental Commitment',
+                    'image' => 'assets/HEADER GREEN RESOURCES.png'
+                ]
+            ],
+            [
+                'slug' => $normalizeSlug('company-commercial-partner'),
+                'title' => 'Commercial Partner',
+                'meta_title' => 'Commercial Partner – Green Resources',
+                'meta_description' => 'Partner with Green Resources for sustainable business solutions.',
+                'status' => 'published',
+                'banner' => [
+                    'title' => 'Commercial Partner',
+                    'subtitle' => 'Partner With Us',
+                    'image' => 'assets/HEADER GREEN RESOURCES.png'
+                ]
+            ],
+            [
+                'slug' => $normalizeSlug('product-feedstocks'),
                 'title' => 'Feedstocks',
                 'meta_title' => 'Feedstocks – Green Resources Products',
                 'meta_description' => 'Explore our range of sustainable feedstock products.',
@@ -62,7 +93,7 @@ class PageSeeder extends Seeder
                 ]
             ],
             [
-                'slug' => 'products-methyl-ester',
+                'slug' => $normalizeSlug('product-methyl-ester'),
                 'title' => 'Methyl Ester',
                 'meta_title' => 'Methyl Ester – Green Resources Products',
                 'meta_description' => 'High-quality methyl ester products for various applications.',
@@ -74,7 +105,7 @@ class PageSeeder extends Seeder
                 ]
             ],
             [
-                'slug' => 'products-others',
+                'slug' => $normalizeSlug('product-other'),
                 'title' => 'Other Products',
                 'meta_title' => 'Other Products – Green Resources',
                 'meta_description' => 'Discover our other sustainable product offerings.',
@@ -86,37 +117,25 @@ class PageSeeder extends Seeder
                 ]
             ],
             [
-                'slug' => 'news-and-event-news',
-                'title' => 'News',
-                'meta_title' => 'News – Green Resources',
-                'meta_description' => 'Stay updated with the latest news and updates from Green Resources.',
-                'status' => 'published',
-                'banner' => [
-                    'title' => 'News',
-                    'subtitle' => 'Latest Updates',
-                    'image' => 'assets/HEADER GREEN RESOURCES.png'
-                ]
-            ],
-            [
-                'slug' => 'news-and-event-event',
-                'title' => 'Events',
-                'meta_title' => 'Events – Green Resources',
-                'meta_description' => 'Join us at our upcoming events and conferences.',
-                'status' => 'published',
-                'banner' => [
-                    'title' => 'Events',
-                    'subtitle' => 'Upcoming Events',
-                    'image' => 'assets/HEADER GREEN RESOURCES.png'
-                ]
-            ],
-            [
-                'slug' => 'contact',
-                'title' => 'Contact Us',
-                'meta_title' => 'Contact Us – Green Resources',
-                'meta_description' => 'Get in touch with Green Resources. We\'d love to hear from you.',
+                'slug' => $normalizeSlug('contact-us-fulfill-form'),
+                'title' => 'Fulfill Form',
+                'meta_title' => 'Contact Form – Green Resources',
+                'meta_description' => 'Get in touch with Green Resources. Fill out our contact form.',
                 'status' => 'published',
                 'banner' => [
                     'title' => 'Contact Us',
+                    'subtitle' => 'Fill Out Our Form',
+                    'image' => 'assets/HEADER GREEN RESOURCES.png'
+                ]
+            ],
+            [
+                'slug' => $normalizeSlug('contact-us-contacts'),
+                'title' => 'Contacts',
+                'meta_title' => 'Contacts – Green Resources',
+                'meta_description' => 'Contact information for Green Resources offices and departments.',
+                'status' => 'published',
+                'banner' => [
+                    'title' => 'Contacts',
                     'subtitle' => 'Get in Touch',
                     'image' => 'assets/HEADER GREEN RESOURCES.png'
                 ]
@@ -131,4 +150,3 @@ class PageSeeder extends Seeder
         }
     }
 }
-

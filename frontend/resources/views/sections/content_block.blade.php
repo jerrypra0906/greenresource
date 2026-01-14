@@ -7,7 +7,7 @@
         @endif
         @if($section->body)
             <div class="section-content">
-                {!! $section->body !!}
+                {!! $section->body_html !!}
             </div>
         @endif
         @if($section->media)

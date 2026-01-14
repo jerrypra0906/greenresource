@@ -48,7 +48,7 @@
                         <h2>{{ $section->title }}</h2>
                     @endif
                     @if($section->body)
-                        <div>{!! $section->body !!}</div>
+                        <div>{!! $section->body_html !!}</div>
                     @endif
                 </div>
             </section>

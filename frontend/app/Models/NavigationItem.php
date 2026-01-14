@@ -12,6 +12,7 @@ class NavigationItem extends Model
     protected $fillable = [
         'label',
         'target_url',
+        'page_id',
         'order',
         'visible',
         'parent_id',
@@ -29,6 +30,11 @@ class NavigationItem extends Model
     public function parent()
     {
         return $this->belongsTo(NavigationItem::class, 'parent_id');
+    }
+
+    public function page()
+    {
+        return $this->belongsTo(Page::class);
     }
 }
 

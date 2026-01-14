@@ -21,7 +21,7 @@
                         Learn More About Us
                     </button>
                 </a>
-                <a href="{{ route('contact') }}">
+                <a href="{{ route('contact-us.fulfill-form') }}">
                     <button class="btn-ghost" type="button">
                         Get in Touch
                     </button>
@@ -106,7 +106,7 @@
                     <span>Custom solutions for your business needs</span>
                 </li>
             </ul>
-            <a href="{{ route('products.feedstocks') }}" class="btn-primary" style="display: inline-block; margin-top: 1.5rem">
+            <a href="{{ route('product.feedstocks') }}" class="btn-primary" style="display: inline-block; margin-top: 1.5rem">
                 Explore Products
             </a>
         </div>
@@ -116,9 +116,9 @@
                 <h3 class="card-title">Product Categories</h3>
             </div>
             <ul class="card-list">
-                <li><a href="{{ route('products.feedstocks') }}">Feedstocks</a></li>
-                <li><a href="{{ route('products.methyl-ester') }}">Methyl Ester</a></li>
-                <li><a href="{{ route('products.others') }}">Other Products</a></li>
+                <li><a href="{{ route('product.feedstocks') }}">Feedstocks</a></li>
+                <li><a href="{{ route('product.methyl-ester') }}">Methyl Ester</a></li>
+                <li><a href="{{ route('product.other') }}">Other Products</a></li>
             </ul>
         </div>
     </div>

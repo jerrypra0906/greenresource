@@ -48,6 +48,12 @@ class PageController extends Controller
      */
     public function home()
     {
+        // Use static home view by default for performance
+        // Set USE_CMS_HOME=true in .env to enable CMS-driven home page
+        if (!config('app.use_cms_home', false)) {
+            return view('home', ['banner' => null]);
+        }
+
         // Cache home page for 1 hour
         $cacheKey = 'page.home';
         

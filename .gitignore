@@ -12,6 +12,13 @@
 /frontend/storage/logs/*
 /frontend/bootstrap/cache/*
 /frontend/public/storage
+/frontend/database/database.sqlite
+
+# Local setup files (not needed in repo)
+/frontend/LOCAL_SETUP_COMPLETE.md
+/frontend/RUN_FROM_MAIN.md
+/frontend/START_SERVER.bat
+/frontend/START_SERVER.ps1
 !frontend/storage/framework/cache/.gitignore
 !frontend/storage/framework/sessions/.gitignore
 !frontend/storage/framework/views/.gitignore

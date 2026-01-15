@@ -27,75 +27,43 @@
                     <span></span>
                 </button>
                 <ul class="nav-links" data-nav-links>
-                    @if(isset($menuItems) && $menuItems->count() > 0)
-                        {{-- Database-driven navigation --}}
-                        @foreach($menuItems as $item)
-                            @php
-                                $itemUrl = '#';
-                                if ($item->target_url !== '#') {
-                                    if (str_starts_with($item->target_url, 'http')) {
-                                        $itemUrl = $item->target_url;
-                                    } else {
-                                        try {
-                                            $itemUrl = route($item->target_url);
-                                        } catch (\Exception $e) {
-                                            $itemUrl = $item->target_url;
-                                        }
-                                    }
-                                }
-                            @endphp
-                            @if($item->children->count() > 0)
-                                <li class="nav-dropdown">
-                                    <a href="{{ $itemUrl }}">{{ $item->label }}</a>
-                                    <ul class="nav-dropdown-menu">
-                                        @foreach($item->children as $child)
-                                            @php
-                                                $childUrl = '#';
-                                                if ($child->target_url !== '#') {
-                                                    if (str_starts_with($child->target_url, 'http')) {
-                                                        $childUrl = $child->target_url;
-                                                    } else {
-                                                        try {
-                                                            $childUrl = route($child->target_url);
-                                                        } catch (\Exception $e) {
-                                                            $childUrl = $child->target_url;
-                                                        }
-                                                    }
-                                                }
-                                            @endphp
-                                            <li>
-                                                <a href="{{ $childUrl }}">{{ $child->label }}</a>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </li>
-                            @else
-                                <li>
-                                    <a href="{{ $itemUrl }}">{{ $item->label }}</a>
-                                </li>
-                            @endif
-                        @endforeach
-                    @else
-                        {{-- Fallback: Hardcoded navigation --}}
-                        <li class="nav-dropdown">
-                            <a href="#">Company</a>
-                            <ul class="nav-dropdown-menu">
-                                <li><a href="{{ route('company.about-us') }}">About Us</a></li>
-                                <li><a href="{{ route('company.location') }}">Location</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-dropdown">
-                            <a href="#">Product</a>
-                            <ul class="nav-dropdown-menu">
-                                <li><a href="{{ route('product.feedstocks') }}">Feedstocks</a></li>
-                                <li><a href="{{ route('product.methyl-ester') }}">Methyl Ester</a></li>
-                                <li><a href="{{ route('product.other') }}">Other</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="{{ route('contact-us.fulfill-form') }}">Contact Us</a>
-                        </li>
-                    @endif
+                    {{-- Hardcoded navigation --}}
+                    <li>
+                        <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
+                    </li>
+                    
+                    {{-- Company: Dropdown only (not clickable) --}}
+                    <li class="nav-dropdown nav-dropdown-only">
+                        <button type="button" class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true" aria-label="Company menu">
+                            Company
+                            <span class="nav-dropdown-caret" aria-hidden="true">▼</span>
+                        </button>
+                        <ul class="nav-dropdown-menu">
+                            <li><a href="{{ route('company.about') }}" class="{{ request()->routeIs('company.about') ? 'active' : '' }}">About Us</a></li>
+                            <li><a href="{{ route('company.location') }}" class="{{ request()->routeIs('company.location') ? 'active' : '' }}">Location</a></li>
+                            <li><a href="{{ route('company.sustainability') }}" class="{{ request()->routeIs('company.sustainability') ? 'active' : '' }}">Sustainability</a></li>
+                            <li><a href="{{ route('company.partner') }}" class="{{ request()->routeIs('company.partner') ? 'active' : '' }}">Commercial Partner</a></li>
+                        </ul>
+                    </li>
+                    
+                    {{-- Products: Clickable link + dropdown trigger --}}
+                    <li class="nav-dropdown nav-dropdown-with-link">
+                        <div class="nav-dropdown-wrapper">
+                            <a href="{{ route('products.index') }}" class="{{ request()->routeIs('products.*') ? 'active' : '' }}">Products</a>
+                            <button type="button" class="nav-dropdown-caret-btn" aria-expanded="false" aria-haspopup="true" aria-label="Products menu">
+                                <span class="nav-dropdown-caret" aria-hidden="true">▼</span>
+                            </button>
+                        </div>
+                        <ul class="nav-dropdown-menu">
+                            <li><a href="{{ route('products.feedstocks') }}" class="{{ request()->routeIs('products.feedstocks') ? 'active' : '' }}">Feedstocks</a></li>
+                            <li><a href="{{ route('products.methyl') }}" class="{{ request()->routeIs('products.methyl') ? 'active' : '' }}">Methyl Ester</a></li>
+                            <li><a href="{{ route('products.others') }}" class="{{ request()->routeIs('products.others') ? 'active' : '' }}">Others</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li>
+                        <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">Contact Us</a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -107,7 +75,7 @@
 
     <footer>
         <div class="container">
-            <div class="footer-grid">
+            <div class="footer-grid footer-grid-two">
                 <div>
                     <div class="brand">
                         <img src="{{ asset('assets/Green Resources Logo white.png') }}" alt="Green Resources Logo" style="height: 40px;" />
@@ -117,19 +85,12 @@
                         and environmental responsibility.
                     </p>
                 </div>
-                <div>
+                <div class="footer-links-right">
                     <h3 class="footer-heading">Quick Links</h3>
                     <ul class="footer-links">
-                        <li><a href="{{ route('company.about-us') }}">About Us</a></li>
-                        <li><a href="{{ route('product.feedstocks') }}">Products</a></li>
-                        <li><a href="{{ route('contact-us.fulfill-form') }}">Contact</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="footer-heading">Connect</h3>
-                    <ul class="footer-links">
-                        <li><a href="{{ route('contact-us.fulfill-form') }}">Contact Form</a></li>
-                        <li><a href="{{ route('contact-us.contacts') }}">Contacts</a></li>
+                        <li><a href="{{ route('company.about') }}">About Us</a></li>
+                        <li><a href="{{ route('products.index') }}">Products</a></li>
+                        <li><a href="{{ route('contact') }}">Contact</a></li>
                     </ul>
                 </div>
             </div>

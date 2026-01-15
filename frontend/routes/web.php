@@ -23,38 +23,47 @@ Route::group([], function () {
     // Company Routes
     Route::prefix('company')->group(function () {
         Route::get('/about-us', function () {
-            return (new PageController())->show('company-about-us');
-        })->name('company.about-us');
+            return view('pages.company.about');
+        })->name('company.about');
         
         Route::get('/location', function () {
             return (new PageController())->show('company-location');
         })->name('company.location');
         
         Route::get('/sustainability', function () {
-            return (new PageController())->show('company-sustainability');
+            return view('pages.company.sustainability');
         })->name('company.sustainability');
         
         Route::get('/commercial-partner', function () {
             return (new PageController())->show('company-commercial-partner');
-        })->name('company.commercial-partner');
+        })->name('company.partner');
     });
 
-    // Product Routes (singular as per requirements)
-    Route::prefix('product')->group(function () {
+    // Products Routes
+    Route::prefix('products')->group(function () {
+        Route::get('/', function () {
+            return view('pages.products.index');
+        })->name('products.index');
+        
         Route::get('/feedstocks', function () {
-            return (new PageController())->show('product-feedstocks');
-        })->name('product.feedstocks');
+            return view('pages.products.feedstocks');
+        })->name('products.feedstocks');
         
         Route::get('/methyl-ester', function () {
-            return (new PageController())->show('product-methyl-ester');
-        })->name('product.methyl-ester');
+            return view('pages.products.methyl');
+        })->name('products.methyl');
         
-        Route::get('/other', function () {
-            return (new PageController())->show('product-other');
-        })->name('product.other');
+        Route::get('/others', function () {
+            return view('pages.products.others');
+        })->name('products.others');
     });
 
-    // Contact Us Routes
+    // Contact Us Route
+    Route::get('/contact-us', function () {
+        return view('contact-us');
+    })->name('contact');
+
+    // Contact Us Sub-routes
     Route::prefix('contact-us')->group(function () {
         Route::get('/fulfill-form', function () {
             return (new PageController())->show('contact-us-fulfill-form');

@@ -8,7 +8,10 @@
 <section class="section banner-section">
     <div class="container banner-container">
         <div class="about-banner">
-            <div class="about-banner-background"></div>
+            <div
+                class="about-banner-background"
+                style="background-image: linear-gradient(135deg, rgba(4, 101, 84, 0.8) 0%, rgba(5, 150, 105, 0.6) 100%), url('{{ asset('assets/banners/products.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;"
+            ></div>
         </div>
     </div>
 </section>

@@ -10,7 +10,7 @@
         <div class="about-banner">
             <div
                 class="about-banner-background"
-                style="background-image: url('{{ asset('assets/banners/contact.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;"
+                style="background-image: url('{{ asset('assets/banners/contact.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;"
             ></div>
         </div>
     </div>

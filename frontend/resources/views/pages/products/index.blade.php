@@ -10,7 +10,7 @@
         <div class="about-banner">
             <div
                 class="about-banner-background"
-                style="background-image: url('{{ asset('assets/banners/products.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;"
+                style="background-image: url('{{ asset('assets/banners/products.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;"
             ></div>
         </div>
     </div>
@@ -41,21 +41,21 @@
         <div class="products-category-grid">
             <a href="{{ route('products.feedstocks') }}" class="products-category-tile">
                 <div class="products-category-image">
-                    <div class="image-placeholder-category"></div>
+                    <img src="{{ asset('assets/images/feedstocks-palm-oil.png') }}" alt="Feedstocks" style="width: 100%; height: 100%; object-fit: cover;" />
                 </div>
                 <h3 class="products-category-label">FEEDSTOCKS</h3>
             </a>
             
             <a href="{{ route('products.methyl') }}" class="products-category-tile">
                 <div class="products-category-image">
-                    <div class="image-placeholder-category"></div>
+                    <img src="{{ asset('assets/images/methyl-ester.png') }}" alt="Methyl Ester" style="width: 100%; height: 100%; object-fit: cover;" />
                 </div>
                 <h3 class="products-category-label">METHYL ESTER</h3>
             </a>
             
             <a href="{{ route('products.others') }}" class="products-category-tile">
                 <div class="products-category-image">
-                    <div class="image-placeholder-category"></div>
+                    <img src="{{ asset('assets/images/others.jpeg') }}" alt="Others" style="width: 100%; height: 100%; object-fit: cover;" />
                 </div>
                 <h3 class="products-category-label">OTHERS</h3>
             </a>

@@ -356,11 +356,10 @@ header {
 .home-banner-background {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(4, 101, 84, 0.8) 0%, rgba(5, 150, 105, 0.6) 100%),
-              url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="%23f0f9f4"/><path d="M0 0L100 100M100 0L0 100" stroke="%23d1fae5" stroke-width="1" opacity="0.3"/></svg>');
-  background-size: cover, 200px 200px;
-  background-position: center center, 0 0;
-  background-repeat: no-repeat, repeat;
+  /* Background image set via inline style in home.blade.php (e.g. assets/banners/home.jpg) */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /* Green Box Section */
@@ -403,6 +402,21 @@ header {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.5rem;
   margin: 0 auto;
+}
+
+.image-grid-card {
+  aspect-ratio: 1;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(135deg, rgba(4, 101, 84, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%);
+}
+
+.image-grid-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .image-placeholder {
@@ -610,23 +624,16 @@ header {
   aspect-ratio: 16 / 9;
   max-width: 900px;
   margin: 0 auto;
-  background: linear-gradient(135deg, rgba(4, 101, 84, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%);
-  border: 2px dashed rgba(4, 101, 84, 0.2);
   border-radius: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   position: relative;
   overflow: hidden;
 }
 
-.image-placeholder-large::before {
-  content: "Image Placeholder";
-  color: rgba(4, 101, 84, 0.4);
-  font-size: 1rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+.image-placeholder-large img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 /* Sustainability Page - Certification Grid */

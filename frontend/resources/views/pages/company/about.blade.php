@@ -10,7 +10,7 @@
         <div class="about-banner">
             <div
                 class="about-banner-background"
-                style="background-image: linear-gradient(135deg, rgba(4, 101, 84, 0.8) 0%, rgba(5, 150, 105, 0.6) 100%), url('{{ asset('assets/banners/about.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;"
+                style="background-image: url('{{ asset('assets/banners/about.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;"
             ></div>
         </div>
     </div>
@@ -50,7 +50,9 @@
                 Through Sustainable Feedstock Collection
             </p>
             <div class="about-feature-image">
-                <div class="image-placeholder-large"></div>
+                <div class="image-placeholder-large">
+                    <img src="{{ asset('assets/images/map-green.png') }}" alt="Connecting Global Markets – Sustainable Feedstock Collection" />
+                </div>
             </div>
         </div>
     </div>

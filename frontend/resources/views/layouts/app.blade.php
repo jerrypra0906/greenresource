@@ -40,9 +40,9 @@
                         </button>
                         <ul class="nav-dropdown-menu">
                             <li><a href="{{ route('company.about') }}" class="{{ request()->routeIs('company.about') ? 'active' : '' }}">About Us</a></li>
-                            <li><a href="{{ route('company.location') }}" class="{{ request()->routeIs('company.location') ? 'active' : '' }}">Location</a></li>
+                            <!-- <li><a href="{{ route('company.location') }}" class="{{ request()->routeIs('company.location') ? 'active' : '' }}">Location</a></li> -->
                             <li><a href="{{ route('company.sustainability') }}" class="{{ request()->routeIs('company.sustainability') ? 'active' : '' }}">Sustainability</a></li>
-                            <li><a href="{{ route('company.partner') }}" class="{{ request()->routeIs('company.partner') ? 'active' : '' }}">Commercial Partner</a></li>
+                            <!-- <li><a href="{{ route('company.partner') }}" class="{{ request()->routeIs('company.partner') ? 'active' : '' }}">Commercial Partner</a></li> -->
                         </ul>
                     </li>
                     

@@ -9,7 +9,10 @@
 <section class="section banner-section">
     <div class="container banner-container">
         <div class="about-banner">
-            <div class="about-banner-background"></div>
+            <div
+                class="about-banner-background"
+                style="background-image: url('{{ asset('assets/banners/sustainability.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;"
+            ></div>
         </div>
     </div>
 </section>
@@ -48,7 +51,7 @@
             {{-- Certification 1: RINA --}}
             <div class="certification-card">
                 <div class="certification-logo">
-                    <img src="{{ asset('images/certifications/rina.png') }}" alt="RINA Certification Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <img src="{{ asset('assets/certifications/rina.png') }}" alt="RINA Certification Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                     <div class="certification-logo-placeholder" style="display: none;">
                         <span>Logo</span>
                     </div>
@@ -68,7 +71,7 @@
             {{-- Certification 2: ISCC --}}
             <div class="certification-card">
                 <div class="certification-logo">
-                    <img src="{{ asset('images/certifications/iscc.png') }}" alt="ISCC Certification Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <img src="{{ asset('assets/certifications/iscc.png') }}" alt="ISCC Certification Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                     <div class="certification-logo-placeholder" style="display: none;">
                         <span>Logo</span>
                     </div>
@@ -91,7 +94,7 @@
             {{-- Certification 3: MPOB --}}
             <div class="certification-card">
                 <div class="certification-logo">
-                    <img src="{{ asset('images/certifications/mpob.png') }}" alt="MPOB Certification Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <img src="{{ asset('assets/certifications/mpob.png') }}" alt="MPOB Certification Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                     <div class="certification-logo-placeholder" style="display: none;">
                         <span>Logo</span>
                     </div>

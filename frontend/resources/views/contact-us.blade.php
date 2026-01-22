@@ -8,7 +8,10 @@
 <section class="section banner-section">
     <div class="container banner-container">
         <div class="about-banner">
-            <div class="about-banner-background"></div>
+            <div
+                class="about-banner-background"
+                style="background-image: url('{{ asset('assets/banners/contact.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;"
+            ></div>
         </div>
     </div>
 </section>

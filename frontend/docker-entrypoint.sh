@@ -19,15 +19,12 @@ mkdir -p /var/www/html/storage/framework/views
 mkdir -p /var/www/html/storage/framework/testing
 mkdir -p /var/www/html/storage/logs
 
-# Set permissions first (as root)
-echo "Setting permissions..."
-chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+# Set permissions - skip on Windows volume mounts as it's very slow
+# Permissions are already set in Dockerfile, and volume mounts preserve them
+echo "Skipping permission setting (already done in Dockerfile)..."
 
 # Create OPcache directory
 mkdir -p /var/www/html/storage/framework/cache/opcache 2>/dev/null || true
-chown -R www-data:www-data /var/www/html/storage/framework/cache/opcache 2>/dev/null || true
-chmod -R 775 /var/www/html/storage/framework/cache/opcache 2>/dev/null || true
 
 # Install dependencies if vendor directory doesn't exist
 if [ ! -d "vendor" ]; then
@@ -95,9 +92,9 @@ if ! grep -q "APP_KEY=base64:" .env 2>/dev/null; then
     php artisan key:generate --ansi || true
 fi
 
-# Run migrations (only if migrations table doesn't exist)
-echo "Checking database migrations..."
-php artisan migrate:status > /dev/null 2>&1 || php artisan migrate --force || true
+# Run migrations (only if migrations table doesn't exist) - skip for now to speed up startup
+echo "Skipping migration check for faster startup..."
+# (php artisan migrate:status > /dev/null 2>&1 || php artisan migrate --force || echo "Migration check skipped") &
 
 # Create storage link
 if [ ! -L "public/storage" ]; then

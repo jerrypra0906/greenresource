@@ -12,9 +12,8 @@ $categoryDescription = "Methyl Ester, commonly known as biodiesel, is a clean-bu
 Our methyl ester products meet international quality standards and are compatible with existing diesel engines and infrastructure, making them ideal for reducing carbon emissions in transportation and industrial applications.";
 
 $products = [
-    ['name' => 'PME', 'desc' => 'Palm Methyl Ester – biodiesel derived from palm oil.'],
-    ['name' => 'SME', 'desc' => 'Soy Methyl Ester – biodiesel produced from soybean oil.'],
-    ['name' => 'TME', 'desc' => 'Tallow Methyl Ester – biodiesel made from animal fats.'],
+    ['name' => 'UCO / RUCO', 'desc' => 'Used Cooking Oil – recycled cooking oil collected for biodiesel production.'],
+    ['name' => 'EFBO', 'desc' => 'Empty Fruit Bunch Oil – extracted from palm empty fruit bunches.'],
 ];
 @endphp
 

@@ -6,7 +6,10 @@
 @section('content')
 {{-- Section 1: Banner --}}
 <section class="home-banner">
-    <div class="home-banner-background"></div>
+    <div
+        class="home-banner-background"
+        style="background-image: url('{{ asset('assets/banners/home.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;"
+    ></div>
 </section>
 
 {{-- Section 2: Green Box --}}
@@ -29,10 +32,18 @@
 <section class="section">
     <div class="container">
         <div class="image-grid">
-            <div class="image-placeholder"></div>
-            <div class="image-placeholder"></div>
-            <div class="image-placeholder"></div>
-            <div class="image-placeholder"></div>
+            <div class="image-grid-card">
+                <img src="{{ asset('assets/images/home-grid-1.png') }}" alt="Green Resources – Image 1" />
+            </div>
+            <div class="image-grid-card">
+                <img src="{{ asset('assets/images/home-grid-2.png') }}" alt="Green Resources – Image 2" />
+            </div>
+            <div class="image-grid-card">
+                <img src="{{ asset('assets/images/home-grid-3.png') }}" alt="Green Resources – Image 3" />
+            </div>
+            <div class="image-grid-card">
+                <img src="{{ asset('assets/images/home-grid-4.jpeg') }}" alt="Green Resources – Image 4" />
+            </div>
         </div>
     </div>
 </section>

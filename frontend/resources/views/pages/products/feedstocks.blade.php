@@ -16,6 +16,7 @@ $products = [
     ['name' => 'UCO / RUCO', 'desc' => 'Used Cooking Oil – recycled cooking oil collected for biodiesel production.'],
     ['name' => 'EFBO', 'desc' => 'Empty Fruit Bunch Oil – extracted from palm empty fruit bunches.'],
     ['name' => 'SBEO', 'desc' => 'Soybean Oil – plant-based oil from soybean processing.'],
+    ['name' => 'Trans-esterified Residue', 'desc' => 'Residue generated from biodiesel transesterification process.'],
 ];
 @endphp
 

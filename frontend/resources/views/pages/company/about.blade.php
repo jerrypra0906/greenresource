@@ -8,7 +8,10 @@
 <section class="section banner-section">
     <div class="container banner-container">
         <div class="about-banner">
-            <div class="about-banner-background"></div>
+            <div
+                class="about-banner-background"
+                style="background-image: url('{{ asset('assets/banners/about.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;"
+            ></div>
         </div>
     </div>
 </section>
@@ -47,7 +50,9 @@
                 Through Sustainable Feedstock Collection
             </p>
             <div class="about-feature-image">
-                <div class="image-placeholder-large"></div>
+                <div class="image-placeholder-large">
+                    <img src="{{ asset('assets/images/map-green.png') }}" alt="Connecting Global Markets – Sustainable Feedstock Collection" />
+                </div>
             </div>
         </div>
     </div>

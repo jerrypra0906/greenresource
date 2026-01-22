@@ -12,9 +12,8 @@ $categoryDescription = "Beyond our core feedstock and methyl ester offerings, we
 Our diversified product portfolio enables us to maximize resource utilization while providing valuable materials to industries including cosmetics, pharmaceuticals, and chemical manufacturing.";
 
 $products = [
-    ['name' => 'Crude Glycerin', 'desc' => 'Byproduct of biodiesel production used in cosmetics and pharmaceuticals.'],
-    ['name' => 'Fatty Acids', 'desc' => 'Essential components for soap, detergent, and chemical industries.'],
-    ['name' => 'Palm Kernel Expeller', 'desc' => 'High-protein animal feed ingredient from palm kernel processing.'],
+    ['name' => 'CRUDE GLYCERIN', 'desc' => 'Byproduct of biodiesel production used in cosmetics and pharmaceuticals.'],
+    ['name' => 'PF-AD', 'desc' => 'Essential components for soap, detergent, and chemical industries.'],
 ];
 @endphp
 

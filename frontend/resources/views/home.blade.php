@@ -33,16 +33,36 @@
     <div class="container">
         <div class="image-grid">
             <div class="image-grid-card">
-                <img src="{{ asset('assets/images/home-grid-1.png') }}" alt="Green Resources – Image 1" />
+                <x-app-image 
+                    src="{{ asset('assets/images/home-grid-1.png') }}" 
+                    alt="Green Resources – Image 1"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
             </div>
             <div class="image-grid-card">
-                <img src="{{ asset('assets/images/home-grid-2.png') }}" alt="Green Resources – Image 2" />
+                <x-app-image 
+                    src="{{ asset('assets/images/home-grid-2.png') }}" 
+                    alt="Green Resources – Image 2"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
             </div>
             <div class="image-grid-card">
-                <img src="{{ asset('assets/images/home-grid-3.png') }}" alt="Green Resources – Image 3" />
+                <x-app-image 
+                    src="{{ asset('assets/images/home-grid-3.png') }}" 
+                    alt="Green Resources – Image 3"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
             </div>
             <div class="image-grid-card">
-                <img src="{{ asset('assets/images/home-grid-4.jpeg') }}" alt="Green Resources – Image 4" />
+                <x-app-image 
+                    src="{{ asset('assets/images/home-grid-4.jpeg') }}" 
+                    alt="Green Resources – Image 4"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
             </div>
         </div>
     </div>

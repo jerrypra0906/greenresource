@@ -454,7 +454,50 @@ sudo crontab -e
 # Add: 0 0 * * * certbot renew --quiet && docker-compose -f /var/www/greenresource/frontend/docker-compose.yml restart nginx
 ```
 
-#### Option B: Using Cloud Provider SSL (Alibaba Cloud)
+#### Option B: Using Cloudflare SSL (Recommended - Easiest)
+
+Cloudflare provides free SSL certificates and automatic HTTPS. This is the easiest option and requires no server configuration.
+
+**Quick Setup Steps:**
+
+1. **Add domain to Cloudflare:**
+   - Log in to Cloudflare: https://dash.cloudflare.com
+   - Add site `greenresource.co`
+   - Update nameservers at your domain registrar
+
+2. **Configure DNS in Cloudflare:**
+   - Go to DNS → Records
+   - Add A record: `@` → `172.28.80.101` (Proxied - orange cloud)
+   - Add A record: `www` → `172.28.80.101` (Proxied - orange cloud)
+
+3. **Enable SSL:**
+   - Go to SSL/TLS → Overview
+   - Select **"Flexible"** mode (easiest - no server certificate needed)
+   - Go to SSL/TLS → Edge Certificates
+   - Enable **"Always Use HTTPS"**
+
+4. **Update server configuration (optional - for Cloudflare):**
+   ```bash
+   # Use Cloudflare-optimized nginx config
+   cp docker/nginx/default-cloudflare.conf docker/nginx/default.conf
+   docker-compose restart nginx
+   ```
+
+5. **Update APP_URL:**
+   ```bash
+   # Edit .env
+   nano .env
+   # Change to: APP_URL=https://greenresource.co
+   
+   # Clear cache
+   docker-compose exec app php artisan config:clear
+   ```
+
+**That's it!** Your site will now be accessible via HTTPS automatically.
+
+**For more details, see:** `docs/CLOUDFLARE_SSL_SETUP.md`
+
+#### Option C: Using Cloud Provider SSL (Alibaba Cloud)
 
 If using Alibaba Cloud SSL certificates:
 

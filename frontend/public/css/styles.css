@@ -360,6 +360,12 @@ header {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+}
+
+.home-banner-background.loaded {
+  opacity: 1;
 }
 
 /* Green Box Section */
@@ -419,6 +425,14 @@ header {
   display: block;
 }
 
+.image-grid-card .app-image-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
 .image-placeholder {
   aspect-ratio: 1;
   background: linear-gradient(135deg, rgba(4, 101, 84, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%);
@@ -470,6 +484,12 @@ header {
   background-size: cover, 200px 200px;
   background-position: center center, 0 0;
   background-repeat: no-repeat, repeat;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+}
+
+.about-banner-background.loaded {
+  opacity: 1;
 }
 
 .about-content {
@@ -548,6 +568,15 @@ header {
   aspect-ratio: 4 / 3;
   overflow: hidden;
   background: #f9fafb;
+  position: relative;
+}
+
+.products-category-image .app-image-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .image-placeholder-category {
@@ -1090,6 +1119,18 @@ footer {
 
 .hero-media {
   position: relative;
+}
+
+.hero-media .app-image-container {
+  width: 100%;
+  height: 100%;
+  min-height: 300px;
+}
+
+@media (min-width: 768px) {
+  .hero-media .app-image-container {
+    min-height: 400px;
+  }
 }
 
 .hero-card {
@@ -2295,6 +2336,157 @@ footer {
 
   .contact-form-wrapper {
     padding: 2rem;
+  }
+}
+
+/* ============================================
+   AppImage Component Styles
+   ============================================ */
+
+/* Container */
+.app-image-container {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background-color: #f3f4f6;
+}
+
+/* When using fill mode, ensure container fills parent */
+.app-image-container.app-image-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* Image */
+.app-image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+  position: relative;
+  z-index: 2;
+}
+
+/* When using fill mode, image should be absolutely positioned */
+.app-image-container.app-image-fill .app-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+}
+
+.app-image.loaded {
+  opacity: 1;
+}
+
+.app-image-error {
+  opacity: 0;
+}
+
+/* Skeleton Shimmer */
+.app-image-skeleton {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    #f3f4f6 0%,
+    #e5e7eb 50%,
+    #f3f4f6 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  z-index: 3;
+}
+
+.app-image-skeleton.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease-out;
+}
+
+.app-image-error-skeleton {
+  background: linear-gradient(
+    90deg,
+    #fee2e2 0%,
+    #fecaca 50%,
+    #fee2e2 100%
+  );
+}
+
+/* Shimmer Animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .app-image-skeleton {
+    animation: none;
+    background: #f3f4f6;
+  }
+  
+  .app-image {
+    transition: opacity 0.2s ease-in-out;
+  }
+}
+
+/* Error Placeholder */
+.app-image-error-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f9fafb;
+  color: #9ca3af;
+  z-index: 2;
+  gap: 0.5rem;
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.875rem;
+}
+
+.app-image-error-placeholder svg {
+  width: 48px;
+  height: 48px;
+  stroke: #d1d5db;
+}
+
+.app-image-container:has(.app-image-error) .app-image-error-placeholder {
+  display: flex;
+}
+
+/* Fallback for browsers without aspect-ratio support */
+@supports not (aspect-ratio: 1) {
+  .app-image-container::before {
+    content: '';
+    display: block;
+    padding-bottom: var(--aspect-ratio, 56.25%);
+  }
+  
+  .app-image-container::before + .app-image {
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 }
 

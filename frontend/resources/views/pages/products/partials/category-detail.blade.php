@@ -17,9 +17,9 @@
 <section class="section product-tabs-section">
     <div class="container">
         <div class="product-tabs">
-            <a href="{{ route('products.feedstocks') }}" class="product-tab {{ $categoryKey === 'feedstocks' ? 'is-active' : '' }}">FEEDSTOCKS</a>
-            <a href="{{ route('products.methyl') }}" class="product-tab {{ $categoryKey === 'methyl' ? 'is-active' : '' }}">METHYL ESTER</a>
-            <a href="{{ route('products.others') }}" class="product-tab {{ $categoryKey === 'others' ? 'is-active' : '' }}">OTHERS</a>
+            <a href="{{ route('products.show', 'feedstocks') }}" class="product-tab {{ $categoryKey === 'feedstocks' ? 'is-active' : '' }}">FEEDSTOCKS</a>
+            <a href="{{ route('products.show', 'methyl-ester') }}" class="product-tab {{ $categoryKey === 'methyl' ? 'is-active' : '' }}">METHYL ESTER</a>
+            <a href="{{ route('products.show', 'others') }}" class="product-tab {{ $categoryKey === 'others' ? 'is-active' : '' }}">OTHERS</a>
         </div>
     </div>
 </section>
@@ -58,10 +58,13 @@
         border-radius: 1.1rem;
         overflow: hidden;
         box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+        position: relative;
+        aspect-ratio: 4 / 3;
     }
-    .product-image img {
+    .product-image img,
+    .product-image .app-image-container {
         width: 100%;
-        height: auto;
+        height: 100%;
         display: block;
         object-fit: cover;
     }
@@ -146,7 +149,12 @@
         <div class="product-layout">
             {{-- Left: Image --}}
             <div class="product-image">
-                <img src="{{ asset($imagePath) }}" alt="{{ $categoryTitle }} - Product Image" />
+                <x-app-image 
+                    src="{{ asset($imagePath) }}" 
+                    alt="{{ $categoryTitle }} - Product Image"
+                    fill
+                    sizes="(max-width: 992px) 100vw, 45vw"
+                />
             </div>
             
             {{-- Right: Product Cards --}}

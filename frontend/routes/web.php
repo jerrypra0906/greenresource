@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 // Public Routes - Dynamic Pages from CMS
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\ProductController;
 
 // Temporarily disable response caching to debug performance
 Route::group([], function () {
@@ -41,21 +42,14 @@ Route::group([], function () {
 
     // Products Routes
     Route::prefix('products')->group(function () {
-        Route::get('/', function () {
-            return view('pages.products.index');
-        })->name('products.index');
+        // Catalog page (index)
+        Route::get('/', [App\Http\Controllers\ProductController::class, 'index'])
+            ->name('products.index');
         
-        Route::get('/feedstocks', function () {
-            return view('pages.products.feedstocks');
-        })->name('products.feedstocks');
-        
-        Route::get('/methyl-ester', function () {
-            return view('pages.products.methyl');
-        })->name('products.methyl');
-        
-        Route::get('/others', function () {
-            return view('pages.products.others');
-        })->name('products.others');
+        // Category detail pages with route constraint
+        Route::get('/{category}', [App\Http\Controllers\ProductController::class, 'show'])
+            ->where('category', 'feedstocks|methyl-ester|others')
+            ->name('products.show');
     });
 
     // Contact Us Route

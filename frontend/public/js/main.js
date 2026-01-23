@@ -167,6 +167,94 @@ document.addEventListener("DOMContentLoaded", () => {
       contactForm.reset();
     });
   }
+
+  // ============================================
+  // AppImage Component: Image Loading Handler
+  // ============================================
+  
+  /**
+   * Handle image load completion
+   * Hides skeleton and fades in the image
+   */
+  window.handleImageLoad = function(imageId) {
+    const image = document.getElementById(imageId);
+    if (!image) return;
+    
+    const container = image.closest('.app-image-container');
+    if (!container) return;
+    
+    const skeleton = container.querySelector('[data-skeleton]');
+    
+    // Mark image as loaded
+    image.classList.add('loaded');
+    
+    // Hide skeleton after a brief delay to ensure smooth transition
+    if (skeleton) {
+      // Wait for image to be decoded for smoother transition
+      if (image.decode) {
+        image.decode().then(() => {
+          skeleton.classList.add('hidden');
+        }).catch(() => {
+          // Fallback if decode fails
+          setTimeout(() => {
+            skeleton.classList.add('hidden');
+          }, 100);
+        });
+      } else {
+        // Fallback for browsers without decode()
+        setTimeout(() => {
+          skeleton.classList.add('hidden');
+        }, 150);
+      }
+    }
+  };
+  
+  // Handle images that are already loaded (cached)
+  document.querySelectorAll('.app-image').forEach((img) => {
+    if (img.complete && img.naturalHeight !== 0) {
+      window.handleImageLoad(img.id);
+    }
+  });
+  
+  // Handle background image loading for banners
+  document.querySelectorAll('.home-banner-background, .about-banner-background').forEach((bg) => {
+    const bgImage = window.getComputedStyle(bg).backgroundImage;
+    if (!bgImage || bgImage === 'none') return;
+    
+    // Extract URL from background-image
+    const urlMatch = bgImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+    if (!urlMatch) return;
+    
+    const img = new Image();
+    img.onload = () => {
+      bg.classList.add('loaded');
+    };
+    img.src = urlMatch[1];
+    
+    // If already cached, mark as loaded immediately
+    if (img.complete) {
+      bg.classList.add('loaded');
+    }
+  });
+  
+  // Preload images on link hover for common navigation paths
+  // Uses data attributes set in Blade templates for route-specific preloading
+  document.querySelectorAll('a[data-preload-image]').forEach((link) => {
+    const imageSrc = link.getAttribute('data-preload-image');
+    if (!imageSrc) return;
+    
+    let preloadLink = null;
+    
+    link.addEventListener('mouseenter', () => {
+      if (!preloadLink) {
+        preloadLink = document.createElement('link');
+        preloadLink.rel = 'preload';
+        preloadLink.as = 'image';
+        preloadLink.href = imageSrc;
+        document.head.appendChild(preloadLink);
+      }
+    }, { once: true });
+  });
 });
 
 

@@ -10,7 +10,14 @@
         </div>
         @if($section->media)
             <div class="hero-media">
-                <img src="{{ $section->media->url }}" alt="{{ $section->media->alt_text ?? $section->title }}" loading="lazy" style="width: 100%; border-radius: 1rem;" />
+                <x-app-image 
+                    src="{{ $section->media->url }}" 
+                    alt="{{ $section->media->alt_text ?? $section->title }}"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    class="hero-media-image"
+                    style="border-radius: 1rem;"
+                />
             </div>
         @endif
     </div>

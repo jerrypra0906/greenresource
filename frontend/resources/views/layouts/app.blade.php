@@ -6,6 +6,17 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Green Resources – Corporate Website & CMS')</title>
     <meta name="description" content="@yield('description', 'Green Resources is a modern, sustainable organization with a corporate website and CMS designed for clarity, credibility, and engagement.')" />
+    
+    {{-- Favicon --}}
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}" />
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}" />
+    <link rel="manifest" href="{{ asset('site.webmanifest') }}" />
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+    <meta name="theme-color" content="#2d5016" />
+    <meta name="msapplication-TileColor" content="#2d5016" />
+    <meta name="msapplication-config" content="{{ asset('browserconfig.xml') }}" />
+    
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}" />
     @stack('styles')
 </head>

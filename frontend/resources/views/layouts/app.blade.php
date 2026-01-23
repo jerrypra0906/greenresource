@@ -18,7 +18,22 @@
     <meta name="msapplication-config" content="{{ asset('browserconfig.xml') }}" />
     
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}" />
+    
+    {{-- Preload critical banner images for current page --}}
+    @if(request()->routeIs('home'))
+        <link rel="preload" as="image" href="{{ asset('assets/banners/home.png') }}" />
+    @elseif(request()->routeIs('products.*'))
+        <link rel="preload" as="image" href="{{ asset('assets/banners/products.png') }}" />
+    @elseif(request()->routeIs('contact'))
+        <link rel="preload" as="image" href="{{ asset('assets/banners/contact.png') }}" />
+    @elseif(request()->routeIs('company.about'))
+        <link rel="preload" as="image" href="{{ asset('assets/banners/about.png') }}" />
+    @elseif(request()->routeIs('company.sustainability'))
+        <link rel="preload" as="image" href="{{ asset('assets/banners/sustainability.png') }}" />
+    @endif
+    
     @stack('styles')
+    @stack('preload')
 </head>
 <body class="page">
     <header>
@@ -66,9 +81,9 @@
                             </button>
                         </div>
                         <ul class="nav-dropdown-menu">
-                            <li><a href="{{ route('products.feedstocks') }}" class="{{ request()->routeIs('products.feedstocks') ? 'active' : '' }}">Feedstocks</a></li>
-                            <li><a href="{{ route('products.methyl') }}" class="{{ request()->routeIs('products.methyl') ? 'active' : '' }}">Methyl Ester</a></li>
-                            <li><a href="{{ route('products.others') }}" class="{{ request()->routeIs('products.others') ? 'active' : '' }}">Others</a></li>
+                            <li><a href="{{ route('products.show', 'feedstocks') }}" class="{{ request()->routeIs('products.show') && request()->segment(2) === 'feedstocks' ? 'active' : '' }}">Feedstocks</a></li>
+                            <li><a href="{{ route('products.show', 'methyl-ester') }}" class="{{ request()->routeIs('products.show') && request()->segment(2) === 'methyl-ester' ? 'active' : '' }}">Methyl Ester</a></li>
+                            <li><a href="{{ route('products.show', 'others') }}" class="{{ request()->routeIs('products.show') && request()->segment(2) === 'others' ? 'active' : '' }}">Others</a></li>
                         </ul>
                     </li>
                     

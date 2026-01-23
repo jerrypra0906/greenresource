@@ -27,7 +27,7 @@
                     while supporting environmental goals.
                 </p>
                 <div style="margin-top: 1rem">
-                    <a href="{{ route('products.feedstocks') }}">
+                    <a href="{{ route('products.show', 'feedstocks') }}">
                         <button class="btn-primary" type="button">Learn More</button>
                     </a>
                 </div>
@@ -43,7 +43,7 @@
                     for various industrial applications.
                 </p>
                 <div style="margin-top: 1rem">
-                    <a href="{{ route('products.methyl') }}">
+                    <a href="{{ route('products.show', 'methyl-ester') }}">
                         <button class="btn-primary" type="button">Learn More</button>
                     </a>
                 </div>
@@ -59,7 +59,7 @@
                     industries and applications.
                 </p>
                 <div style="margin-top: 1rem">
-                    <a href="{{ route('products.others') }}">
+                    <a href="{{ route('products.show', 'others') }}">
                         <button class="btn-primary" type="button">Learn More</button>
                     </a>
                 </div>

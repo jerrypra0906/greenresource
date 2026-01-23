@@ -39,23 +39,38 @@
         </div>
         
         <div class="products-category-grid">
-            <a href="{{ route('products.feedstocks') }}" class="products-category-tile">
+            <a href="{{ route('products.show', 'feedstocks') }}" class="products-category-tile" data-preload-image="{{ asset('assets/banners/products.png') }}">
                 <div class="products-category-image">
-                    <img src="{{ asset('assets/images/feedstocks-palm-oil.png') }}" alt="Feedstocks" style="width: 100%; height: 100%; object-fit: cover;" />
+                    <x-app-image 
+                        src="{{ asset('assets/images/feedstocks-palm-oil.png') }}" 
+                        alt="Feedstocks"
+                        fill
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                    />
                 </div>
                 <h3 class="products-category-label">FEEDSTOCKS</h3>
             </a>
             
-            <a href="{{ route('products.methyl') }}" class="products-category-tile">
+            <a href="{{ route('products.show', 'methyl-ester') }}" class="products-category-tile" data-preload-image="{{ asset('assets/banners/products.png') }}">
                 <div class="products-category-image">
-                    <img src="{{ asset('assets/images/methyl-ester.png') }}" alt="Methyl Ester" style="width: 100%; height: 100%; object-fit: cover;" />
+                    <x-app-image 
+                        src="{{ asset('assets/images/methyl-ester.png') }}" 
+                        alt="Methyl Ester"
+                        fill
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                    />
                 </div>
                 <h3 class="products-category-label">METHYL ESTER</h3>
             </a>
             
-            <a href="{{ route('products.others') }}" class="products-category-tile">
+            <a href="{{ route('products.show', 'others') }}" class="products-category-tile" data-preload-image="{{ asset('assets/banners/products.png') }}">
                 <div class="products-category-image">
-                    <img src="{{ asset('assets/images/others.jpeg') }}" alt="Others" style="width: 100%; height: 100%; object-fit: cover;" />
+                    <x-app-image 
+                        src="{{ asset('assets/images/others.jpeg') }}" 
+                        alt="Others"
+                        fill
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                    />
                 </div>
                 <h3 class="products-category-label">OTHERS</h3>
             </a>

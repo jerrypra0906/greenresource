@@ -158,8 +158,8 @@ sudo ufw enable
 
 #### Step 7: Access Application
 
-- **Website:** http://greenresource.co:8000 (or https://greenresource.co after SSL setup)
-- **Admin Panel:** http://greenresource.co:8000/admin/login (or https://greenresource.co/admin/login after SSL setup)
+- **Website:** http://greenresource.co (or https://greenresource.co after SSL setup)
+- **Admin Panel:** http://greenresource.co/admin/login (or https://greenresource.co/admin/login after SSL setup)
 - **Default Admin:**
   - Email: `admin@greenresources.com`
   - Password: `admin123` (Change immediately!)
@@ -541,14 +541,14 @@ sudo crontab -e
 
 ### Site Can't Be Reached (Connection Refused)
 
-If you can't access `http://172.28.80.101:8000` from your laptop/browser (but it works on the server), this is a network/firewall issue.
+If you can't access `http://172.28.80.101` or `http://greenresource.co` from your laptop/browser (but it works on the server), this is a network/firewall issue.
 
 **Quick Diagnostic Commands (run on server):**
 
 ```bash
 # 1. Check if port is listening on all interfaces (0.0.0.0)
-ss -tuln | grep 8000
-# Should show: tcp 0.0.0.0:8000 LISTEN
+ss -tuln | grep 80
+# Should show: tcp 0.0.0.0:80 LISTEN
 
 # 2. Check firewall status
 sudo ufw status
@@ -564,7 +564,7 @@ docker-compose ps
 - You MUST add a security group rule in Alibaba Cloud Console
 - See Step 3 below for detailed instructions
 
-If you can't access `http://172.28.80.101:8000`, follow these steps:
+If you can't access `http://172.28.80.101` or `http://greenresource.co`, follow these steps:
 
 #### 1. Check if Containers are Running
 
@@ -585,28 +585,28 @@ docker-compose logs postgres
 docker-compose restart
 ```
 
-#### 2. Check if Port 8000 is Listening
+#### 2. Check if Port 80 is Listening
 
 ```bash
-# Check if port 8000 is open and listening
-netstat -tuln | grep 8000
+# Check if port 80 is open and listening
+netstat -tuln | grep 80
 # OR
-ss -tuln | grep 8000
+ss -tuln | grep 80
 
-# Should show: tcp 0.0.0.0:8000 LISTEN (NOT 127.0.0.1:8000)
-# If it shows 127.0.0.1:8000, the port is only accessible locally
+# Should show: tcp 0.0.0.0:80 LISTEN (NOT 127.0.0.1:80)
+# If it shows 127.0.0.1:80, the port is only accessible locally
 ```
 
-**Important:** The port must be listening on `0.0.0.0:8000` (all interfaces), not `127.0.0.1:8000` (localhost only).
+**Important:** The port must be listening on `0.0.0.0:80` (all interfaces), not `127.0.0.1:80` (localhost only).
 
 If it's only listening on 127.0.0.1, check docker-compose.yml port mapping:
 ```bash
 # Verify port mapping in docker-compose.yml
 grep -A 2 "ports:" docker-compose.yml
-# Should show: - "8000:80" (not "127.0.0.1:8000:80")
+# Should show: - "80:80" (not "127.0.0.1:80:80")
 ```
 
-If port 8000 is not listening, check nginx container:
+If port 80 is not listening, check nginx container:
 
 ```bash
 docker-compose exec nginx nginx -t
@@ -635,12 +635,12 @@ docker-compose restart nginx
 
 4. **Check existing inbound rules:**
    - Click **Inbound** tab
-   - Look for a rule allowing port 8000
-   - If it doesn't exist, you need to add it
+   - Look for rules allowing ports 80 and 443
+   - If they don't exist, you need to add them
 
 5. **Add Inbound Rules (if missing):**
    
-   **For HTTP (port 80):**
+   **For HTTP (port 80) - Required:**
    - Click **Add Rule** or **Create Rule**
    - Configure:
      - **Port Range:** `80/80` (or just `80`)
@@ -656,15 +656,6 @@ docker-compose restart nginx
      - **Protocol:** `TCP`
      - **Authorization Object:** `0.0.0.0/0` (allows from anywhere) OR your specific IP for better security
      - **Description:** `Allow HTTPS on port 443`
-   - Click **Save** or **OK**
-   
-   **For Docker deployment (port 8000) - Optional if using direct domain:**
-   - Click **Add Rule** or **Create Rule**
-   - Configure:
-     - **Port Range:** `8000/8000` (or just `8000`)
-     - **Protocol:** `TCP`
-     - **Authorization Object:** `0.0.0.0/0` (allows from anywhere) OR your specific IP for better security
-     - **Description:** `Allow HTTP on port 8000`
    - Click **Save** or **OK**
 
 6. **Verify the rule is active:**
@@ -687,13 +678,15 @@ docker-compose restart nginx
 # Check firewall status
 sudo ufw status
 
-# If firewall is active, allow port 8000
-sudo ufw allow 8000/tcp
+# If firewall is active, allow ports 80 and 443
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
 sudo ufw reload
 
 # For CentOS/RHEL, check firewalld
 sudo firewall-cmd --list-ports
-sudo firewall-cmd --permanent --add-port=8000/tcp
+sudo firewall-cmd --permanent --add-port=80/tcp
+sudo firewall-cmd --permanent --add-port=443/tcp
 sudo firewall-cmd --reload
 ```
 
@@ -701,7 +694,7 @@ sudo firewall-cmd --reload
 
 ```bash
 # Test if nginx is responding locally
-curl http://localhost:8000
+curl http://localhost
 
 # Test if app container is reachable from nginx
 docker-compose exec nginx ping -c 2 app
@@ -723,16 +716,16 @@ docker-compose exec nginx wget -O- http://app:9000
 #### 7. Verify Port is Listening on All Interfaces
 
 ```bash
-# Check if port 8000 is listening on 0.0.0.0 (all interfaces)
-ss -tuln | grep 8000
+# Check if port 80 is listening on 0.0.0.0 (all interfaces)
+ss -tuln | grep 80
 
-# Should show: tcp 0.0.0.0:8000 LISTEN
-# If it shows 127.0.0.1:8000, Docker is only binding to localhost
+# Should show: tcp 0.0.0.0:80 LISTEN
+# If it shows 127.0.0.1:80, Docker is only binding to localhost
 
 # If it's only on 127.0.0.1, check docker-compose.yml
 cd /var/www/greenresource/frontend
 grep -A 2 "ports:" docker-compose.yml
-# Should show: - "8000:80" (NOT "127.0.0.1:8000:80")
+# Should show: - "80:80" (NOT "127.0.0.1:80:80")
 
 # If wrong, fix it and restart:
 docker-compose down
@@ -745,12 +738,12 @@ docker-compose up -d
 
 ```bash
 # Windows PowerShell
-Test-NetConnection -ComputerName 172.28.80.101 -Port 8000
+Test-NetConnection -ComputerName 172.28.80.101 -Port 80
 
 # Linux/Mac
-telnet 172.28.80.101 8000
+telnet 172.28.80.101 80
 # OR
-nc -zv 172.28.80.101 8000
+nc -zv 172.28.80.101 80
 
 # If connection times out or is refused, it's a security group issue
 # If connection succeeds but site doesn't load, it's an application issue

@@ -23,44 +23,56 @@ Route::group([], function () {
     // Company Routes
     Route::prefix('company')->group(function () {
         Route::get('/about-us', function () {
-            return (new PageController())->show('company-about-us');
-        })->name('company.about-us');
+            return view('pages.company.about');
+        })->name('company.about');
         
         Route::get('/location', function () {
             return (new PageController())->show('company-location');
         })->name('company.location');
+        
+        Route::get('/sustainability', function () {
+            return view('pages.company.sustainability');
+        })->name('company.sustainability');
+        
+        Route::get('/commercial-partner', function () {
+            return (new PageController())->show('company-commercial-partner');
+        })->name('company.partner');
     });
 
     // Products Routes
     Route::prefix('products')->group(function () {
+        Route::get('/', function () {
+            return view('pages.products.index');
+        })->name('products.index');
+        
         Route::get('/feedstocks', function () {
-            return (new PageController())->show('products-feedstocks');
+            return view('pages.products.feedstocks');
         })->name('products.feedstocks');
         
         Route::get('/methyl-ester', function () {
-            return (new PageController())->show('products-methyl-ester');
-        })->name('products.methyl-ester');
+            return view('pages.products.methyl');
+        })->name('products.methyl');
         
         Route::get('/others', function () {
-            return (new PageController())->show('products-others');
+            return view('pages.products.others');
         })->name('products.others');
     });
 
-    // News and Event Routes
-    Route::prefix('news-and-event')->group(function () {
-        Route::get('/news', function () {
-            return (new PageController())->show('news-and-event-news');
-        })->name('news-and-event.news');
-        
-        Route::get('/event', function () {
-            return (new PageController())->show('news-and-event-event');
-        })->name('news-and-event.event');
-    });
-
-    // Contact Routes
-    Route::get('/contact', function () {
-        return (new PageController())->show('contact');
+    // Contact Us Route
+    Route::get('/contact-us', function () {
+        return view('contact-us');
     })->name('contact');
+
+    // Contact Us Sub-routes
+    Route::prefix('contact-us')->group(function () {
+        Route::get('/fulfill-form', function () {
+            return (new PageController())->show('contact-us-fulfill-form');
+        })->name('contact-us.fulfill-form');
+        
+        Route::get('/contacts', function () {
+            return (new PageController())->show('contact-us-contacts');
+        })->name('contact-us.contacts');
+    });
 });
 // Re-enable with: Route::middleware(['cache.response:3600'])->group(function () {
 
@@ -110,6 +122,17 @@ Route::prefix('admin')->group(function () {
         Route::resource('media', App\Http\Controllers\Admin\MediaController::class);
         Route::post('/media/upload', [App\Http\Controllers\Admin\MediaController::class, 'upload'])
             ->name('media.upload');
+
+        // CMS Routes - Navigation
+        Route::resource('navigation', App\Http\Controllers\Admin\NavigationController::class)
+            ->names([
+                'index' => 'admin.navigation.index',
+                'create' => 'admin.navigation.create',
+                'store' => 'admin.navigation.store',
+                'edit' => 'admin.navigation.edit',
+                'update' => 'admin.navigation.update',
+                'destroy' => 'admin.navigation.destroy',
+            ]);
 
         // CMS Routes - Inquiries
         Route::get('/inquiries', [App\Http\Controllers\Admin\InquiryController::class, 'index'])

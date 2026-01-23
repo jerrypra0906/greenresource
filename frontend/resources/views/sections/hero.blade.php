@@ -5,7 +5,7 @@
                 <h1 class="hero-title">{{ $section->title }}</h1>
             @endif
             @if($section->body)
-                <p class="hero-subtitle">{!! $section->body !!}</p>
+                <p class="hero-subtitle">{!! $section->body_html !!}</p>
             @endif
         </div>
         @if($section->media)

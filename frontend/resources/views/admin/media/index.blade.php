@@ -15,6 +15,7 @@
                     <a href="{{ route('admin.dashboard') }}">Dashboard</a>
                     <a href="{{ route('pages.index') }}">Pages</a>
                     <a href="{{ route('media.index') }}" class="active">Media</a>
+                    <a href="{{ route('admin.navigation.index') }}">Navigation</a>
                     <a href="{{ route('admin.inquiries.index') }}">Inquiries</a>
                     <a href="{{ route('admin.settings.index') }}">Settings</a>
                     <a href="{{ route('admin.users.index') }}">Users</a>

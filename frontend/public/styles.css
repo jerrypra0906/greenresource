@@ -390,7 +390,8 @@ footer {
 }
 
 .section-kicker {
-  font-size: 0.8rem;
+  font-size: 2rem;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.16em;
   color: #059669;

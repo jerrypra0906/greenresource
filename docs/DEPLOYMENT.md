@@ -158,8 +158,8 @@ sudo ufw enable
 
 #### Step 7: Access Application
 
-- **Website:** http://172.28.80.101:8000
-- **Admin Panel:** http://172.28.80.101:8000/admin/login
+- **Website:** http://greenresource.co:8000 (or https://greenresource.co after SSL setup)
+- **Admin Panel:** http://greenresource.co:8000/admin/login (or https://greenresource.co/admin/login after SSL setup)
 - **Default Admin:**
   - Email: `admin@greenresources.com`
   - Password: `admin123` (Change immediately!)
@@ -234,7 +234,8 @@ Update `.env`:
 ```env
 APP_ENV=production
 APP_DEBUG=false
-APP_URL=http://172.28.80.101
+APP_URL=https://greenresource.co
+# Or use http://greenresource.co if SSL is not set up yet
 
 DB_CONNECTION=pgsql
 DB_HOST=127.0.0.1
@@ -264,7 +265,7 @@ Add this configuration:
 ```nginx
 server {
     listen 80;
-    server_name 172.28.80.101;
+    server_name greenresource.co www.greenresource.co;
     root /var/www/greenresource/frontend/public;
 
     add_header X-Frame-Options "SAMEORIGIN";
@@ -310,17 +311,190 @@ sudo systemctl restart nginx
 
 Log in to admin panel and change the default password immediately.
 
-### 2. Configure SSL/HTTPS (Recommended)
+### 2. Configure Domain (greenresource.co)
+
+Before setting up SSL, you need to configure your domain to point to your server.
+
+#### Step 1: DNS Configuration
+
+1. **Log in to your domain registrar** (where you purchased greenresource.co)
+2. **Add/Update DNS A Record:**
+   - **Type:** A
+   - **Name:** @ (or leave blank for root domain)
+   - **Value:** 172.28.80.101
+   - **TTL:** 3600 (or default)
+
+3. **Add/Update DNS A Record for www (optional):**
+   - **Type:** A
+   - **Name:** www
+   - **Value:** 172.28.80.101
+   - **TTL:** 3600 (or default)
+
+4. **Wait for DNS propagation** (can take 5 minutes to 48 hours, usually 15-30 minutes)
+
+#### Step 2: Verify DNS Resolution
+
+```bash
+# Test DNS resolution from your local machine
+nslookup greenresource.co
+# OR
+dig greenresource.co
+
+# Should return: 172.28.80.101
+```
+
+#### Step 3: Update Application Configuration
+
+Update your `.env` file to use the domain:
+
+```bash
+cd /var/www/greenresource/frontend
+nano .env
+```
+
+Change:
+```env
+APP_URL=http://172.28.80.101
+```
+
+To:
+```env
+APP_URL=https://greenresource.co
+```
+
+**For Docker deployment:**
+```bash
+# After updating .env, restart containers
+docker-compose restart app
+docker-compose exec app php artisan config:clear
+```
+
+**For traditional deployment:**
+```bash
+php artisan config:clear
+php artisan config:cache
+```
+
+#### Step 4: Update Nginx Configuration
+
+The nginx configuration already includes `server_name greenresource.co www.greenresource.co` in `frontend/docker/nginx/default.conf`.
+
+**For Docker deployment:**
+- The configuration is already updated
+- Restart nginx: `docker-compose restart nginx`
+
+**For traditional deployment:**
+Update `/etc/nginx/sites-available/greenresource`:
+```nginx
+server {
+    listen 80;
+    server_name greenresource.co www.greenresource.co;
+    # ... rest of configuration
+}
+```
+
+Then reload nginx:
+```bash
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+### 3. Configure SSL/HTTPS (Recommended)
+
+After DNS is configured and pointing to your server, set up SSL:
+
+#### Option A: Using Certbot (Let's Encrypt) - Recommended
 
 ```bash
 # Install Certbot
-sudo apt install certbot python3-certbot-nginx
+sudo apt update
+sudo apt install -y certbot python3-certbot-nginx
 
-# Get SSL certificate
-sudo certbot --nginx -d your-domain.com
+# For Docker deployment - you need to run certbot on the host
+# First, ensure port 80 and 443 are accessible
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+
+# Get SSL certificate (interactive mode)
+sudo certbot certonly --nginx -d greenresource.co -d www.greenresource.co
+
+# OR use standalone mode (if nginx is in Docker)
+sudo certbot certonly --standalone -d greenresource.co -d www.greenresource.co
 ```
 
-### 3. Set Up Firewall
+**For Docker deployment with Certbot:**
+
+After obtaining certificates, you need to:
+
+1. **Update docker-compose.yml** to mount SSL certificates:
+```yaml
+nginx:
+  volumes:
+    - ./:/var/www/html
+    - ./docker/nginx/default-ssl.conf:/etc/nginx/conf.d/default.conf
+    - /etc/letsencrypt:/etc/letsencrypt:ro  # Mount SSL certificates
+```
+
+2. **Use the SSL configuration:**
+```bash
+# Copy SSL config
+cp docker/nginx/default-ssl.conf docker/nginx/default.conf
+
+# Restart nginx
+docker-compose restart nginx
+```
+
+3. **Set up auto-renewal:**
+```bash
+# Test renewal
+sudo certbot renew --dry-run
+
+# Add to crontab for auto-renewal
+sudo crontab -e
+# Add: 0 0 * * * certbot renew --quiet && docker-compose -f /var/www/greenresource/frontend/docker-compose.yml restart nginx
+```
+
+#### Option B: Using Cloud Provider SSL (Alibaba Cloud)
+
+If using Alibaba Cloud SSL certificates:
+
+1. **Purchase/Upload SSL certificate** in Alibaba Cloud Console
+2. **Download certificate files** (certificate.pem and private.key)
+3. **Place them in a secure location** on your server:
+```bash
+sudo mkdir -p /etc/ssl/greenresource.co
+sudo nano /etc/ssl/greenresource.co/certificate.pem
+sudo nano /etc/ssl/greenresource.co/private.key
+sudo chmod 600 /etc/ssl/greenresource.co/private.key
+```
+
+4. **Update nginx configuration** to use these certificates:
+```nginx
+ssl_certificate /etc/ssl/greenresource.co/certificate.pem;
+ssl_certificate_key /etc/ssl/greenresource.co/private.key;
+```
+
+5. **For Docker:** Mount the SSL directory in docker-compose.yml:
+```yaml
+nginx:
+  volumes:
+    - /etc/ssl/greenresource.co:/etc/ssl/greenresource.co:ro
+```
+
+#### Verify SSL Setup
+
+```bash
+# Test SSL configuration
+curl -I https://greenresource.co
+
+# Check SSL certificate
+openssl s_client -connect greenresource.co:443 -servername greenresource.co
+
+# Online SSL checker
+# Visit: https://www.ssllabs.com/ssltest/analyze.html?d=greenresource.co
+```
+
+### 4. Set Up Firewall
 
 ```bash
 sudo ufw allow 'Nginx Full'
@@ -328,7 +502,7 @@ sudo ufw allow OpenSSH
 sudo ufw enable
 ```
 
-### 4. Configure Automatic Backups
+### 5. Configure Automatic Backups
 
 Create a backup script:
 ```bash
@@ -464,7 +638,27 @@ docker-compose restart nginx
    - Look for a rule allowing port 8000
    - If it doesn't exist, you need to add it
 
-5. **Add Inbound Rule (if missing):**
+5. **Add Inbound Rules (if missing):**
+   
+   **For HTTP (port 80):**
+   - Click **Add Rule** or **Create Rule**
+   - Configure:
+     - **Port Range:** `80/80` (or just `80`)
+     - **Protocol:** `TCP`
+     - **Authorization Object:** `0.0.0.0/0` (allows from anywhere) OR your specific IP for better security
+     - **Description:** `Allow HTTP on port 80`
+   - Click **Save** or **OK**
+   
+   **For HTTPS (port 443) - Required for SSL:**
+   - Click **Add Rule** or **Create Rule**
+   - Configure:
+     - **Port Range:** `443/443` (or just `443`)
+     - **Protocol:** `TCP`
+     - **Authorization Object:** `0.0.0.0/0` (allows from anywhere) OR your specific IP for better security
+     - **Description:** `Allow HTTPS on port 443`
+   - Click **Save** or **OK**
+   
+   **For Docker deployment (port 8000) - Optional if using direct domain:**
    - Click **Add Rule** or **Create Rule**
    - Configure:
      - **Port Range:** `8000/8000` (or just `8000`)

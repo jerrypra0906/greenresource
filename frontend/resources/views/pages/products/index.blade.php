@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Products – Green Resources')
-@section('description', 'Explore our range of sustainable products including feedstocks, methyl ester, and other solutions.')
+@section('description', 'Explore our range of sustainable products including feedstocks, waste-based FAME, and other solutions.')
 
 @section('content')
 {{-- Section 1: Banner --}}
@@ -51,16 +51,16 @@
                 <h3 class="products-category-label">FEEDSTOCKS</h3>
             </a>
             
-            <a href="{{ route('products.show', 'methyl-ester') }}" class="products-category-tile" data-preload-image="{{ asset('assets/banners/products.png') }}">
+            <a href="{{ route('products.show', 'waste-based-fame') }}" class="products-category-tile" data-preload-image="{{ asset('assets/banners/products.png') }}">
                 <div class="products-category-image">
                     <x-app-image 
                         src="{{ asset('assets/images/methyl-ester.png') }}" 
-                        alt="Methyl Ester"
+                        alt="Waste-based FAME"
                         fill
                         sizes="(max-width: 768px) 100vw, 33vw"
                     />
                 </div>
-                <h3 class="products-category-label">METHYL ESTER</h3>
+                <h3 class="products-category-label">WASTE-BASED FAME</h3>
             </a>
             
             <a href="{{ route('products.show', 'others') }}" class="products-category-tile" data-preload-image="{{ asset('assets/banners/products.png') }}">

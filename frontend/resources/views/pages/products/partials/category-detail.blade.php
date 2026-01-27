@@ -18,7 +18,7 @@
     <div class="container">
         <div class="product-tabs">
             <a href="{{ route('products.show', 'feedstocks') }}" class="product-tab {{ $categoryKey === 'feedstocks' ? 'is-active' : '' }}">FEEDSTOCKS</a>
-            <a href="{{ route('products.show', 'methyl-ester') }}" class="product-tab {{ $categoryKey === 'methyl' ? 'is-active' : '' }}">METHYL ESTER</a>
+            <a href="{{ route('products.show', 'waste-based-fame') }}" class="product-tab {{ $categoryKey === 'methyl' ? 'is-active' : '' }}">WASTE-BASED FAME</a>
             <a href="{{ route('products.show', 'others') }}" class="product-tab {{ $categoryKey === 'others' ? 'is-active' : '' }}">OTHERS</a>
         </div>
     </div>
@@ -119,7 +119,7 @@
         color: var(--brand-dark-gray);
         font-size: 0.9rem;
     }
-    /* For categories with 2 products (methyl, others) */
+    /* For categories with 2 products (waste-based FAME, others) */
     .product-two-column {
         display: grid;
         grid-template-columns: 1fr;

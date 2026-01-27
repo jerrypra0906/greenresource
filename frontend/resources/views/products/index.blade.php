@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Products – Green Resources')
-@section('description', 'Explore our range of sustainable products including feedstocks, methyl ester, and other solutions.')
+@section('description', 'Explore our range of sustainable products including feedstocks, waste-based FAME, and other solutions.')
 
 @section('content')
 <section class="section">
@@ -11,8 +11,8 @@
             <h1 class="section-title">Sustainable Product Solutions</h1>
             <p class="section-description">
                 Discover our comprehensive range of sustainable products designed to meet your needs 
-                while supporting environmental goals. We offer high-quality feedstocks, premium methyl 
-                ester products, and additional solutions for various applications.
+                while supporting environmental goals. We offer high-quality feedstocks, premium waste-based FAME 
+                products, and additional solutions for various applications.
             </p>
         </div>
 
@@ -36,14 +36,14 @@
             <article class="card">
                 <div class="card-header">
                     <div class="card-icon">⚗️</div>
-                    <h3 class="card-title">Methyl Ester</h3>
+                    <h3 class="card-title">Waste-based FAME</h3>
                 </div>
                 <p class="card-body">
-                    Premium methyl ester products manufactured with the highest quality standards 
+                    Premium waste-based FAME products manufactured with the highest quality standards 
                     for various industrial applications.
                 </p>
                 <div style="margin-top: 1rem">
-                    <a href="{{ route('products.show', 'methyl-ester') }}">
+                    <a href="{{ route('products.show', 'waste-based-fame') }}">
                         <button class="btn-primary" type="button">Learn More</button>
                     </a>
                 </div>
@@ -86,7 +86,7 @@
                     </li>
                     <li>
                         <span class="bullet">✓</span>
-                        <span>Premium methyl ester products meeting industry standards</span>
+                        <span>Premium waste-based FAME products meeting industry standards</span>
                     </li>
                     <li>
                         <span class="bullet">✓</span>

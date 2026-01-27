@@ -46,9 +46,14 @@ Route::group([], function () {
         Route::get('/', [App\Http\Controllers\ProductController::class, 'index'])
             ->name('products.index');
         
+        // Legacy redirect: /products/methyl-ester → /products/waste-based-fame
+        Route::get('/methyl-ester', function () {
+            return redirect()->route('products.show', 'waste-based-fame', 301);
+        });
+
         // Category detail pages with route constraint
         Route::get('/{category}', [App\Http\Controllers\ProductController::class, 'show'])
-            ->where('category', 'feedstocks|methyl-ester|others')
+            ->where('category', 'feedstocks|waste-based-fame|others')
             ->name('products.show');
     });
 

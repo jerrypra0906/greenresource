@@ -82,7 +82,7 @@
                         </div>
                         <ul class="nav-dropdown-menu">
                             <li><a href="{{ route('products.show', 'feedstocks') }}" class="{{ request()->routeIs('products.show') && request()->segment(2) === 'feedstocks' ? 'active' : '' }}">Feedstocks</a></li>
-                            <li><a href="{{ route('products.show', 'methyl-ester') }}" class="{{ request()->routeIs('products.show') && request()->segment(2) === 'methyl-ester' ? 'active' : '' }}">Methyl Ester</a></li>
+                            <li><a href="{{ route('products.show', 'waste-based-fame') }}" class="{{ request()->routeIs('products.show') && request()->segment(2) === 'waste-based-fame' ? 'active' : '' }}">Waste-based FAME</a></li>
                             <li><a href="{{ route('products.show', 'others') }}" class="{{ request()->routeIs('products.show') && request()->segment(2) === 'others' ? 'active' : '' }}">Others</a></li>
                         </ul>
                     </li>

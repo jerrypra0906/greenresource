@@ -22,8 +22,12 @@
     <div class="container">
         <div class="about-content">
             <div class="about-feature-heading">OUR COMMITMENT</div>
+            <div class="about-subtitle">Trading Renewable Energy for a Lower-Carbon Future</div>
+            <p class="about-paragraph sustainability-paragraph">
+                Green Resources Pte Ltd sources and trades renewable energy feedstocks from circular oil palm waste and residues, supporting greenhouse-gas reduction and circular economy outcomes.
+            </p>
             <p class="about-paragraph sustainability-paragraph sustainability-paragraph-last">
-                Green Resources Pte Ltd is committed to responsible sourcing and trading practices that support environmental sustainability, ethical conduct, and long-term partnerships. As a trading company specializing in renewable, waste, and residue feedstocks, we prioritize transparency, risk management, and continuous improvement across our supply chain.
+                We operate with a transparent, risk-based sourcing framework, aligned with international sustainability and renewable energy regulations, delivering credible documentation, traceability, and dependable supply for global markets.
             </p>
         </div>
     </div>
@@ -35,10 +39,13 @@
         <div class="about-content">
             <div class="about-feature-heading">OUR CERTIFICATIONS</div>
             <p class="about-paragraph sustainability-paragraph">
-                Green Resources is consistently certified under the sustainability schemes below, reinforcing our commitment to maintaining high environmental standards throughout our operations.
+                We apply recognized sustainability certifications and declarations, where relevant to the product, origin, and market, to support regulatory compliance, audit readiness, and credible sustainability claims worldwide.
+            </p>
+            <p class="about-paragraph sustainability-paragraph">
+                Our certification approach is fit for purpose and risk-based. Certification is used to enhance supply-chain transparency, traceability, and data integrity, ensuring that sustainability attributes are supported by verifiable and auditable documentation throughout the trading process.
             </p>
             <p class="about-paragraph sustainability-paragraph sustainability-paragraph-last">
-                These certifications reflect our dedication to sustainable development and responsible business practices across our value chain.
+                We apply certification with clarity and discipline, ensuring that sustainability claims are accurate, consistent, and transaction-specific. This enables our customers to rely on our documentation with confidence, integrate our products into regulated and voluntary markets, and move forward without uncertainty or reputational risk.
             </p>
         </div>
     </div>

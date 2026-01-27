@@ -67,7 +67,7 @@
                 </div>
             </div>
         @else
-            {{-- Methyl Ester and Others: 2 cards in centered layout --}}
+            {{-- Waste-based FAME and Others: 2 cards in centered layout --}}
             <div class="product-two-column">
                 @foreach($products as $product)
                 <div class="product-card-item">

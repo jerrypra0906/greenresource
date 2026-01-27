@@ -28,11 +28,11 @@
                 FEEDSTOCKS
             </a>
             <a 
-                href="{{ route('products.show', 'methyl-ester') }}" 
+                href="{{ route('products.show', 'waste-based-fame') }}" 
                 class="product-tab {{ $categoryKey === 'methyl' ? 'is-active' : '' }}"
-                data-category="methyl-ester"
+                data-category="waste-based-fame"
             >
-                METHYL ESTER
+                WASTE-BASED FAME
             </a>
             <a 
                 href="{{ route('products.show', 'others') }}" 

@@ -27,19 +27,20 @@ class ProductController extends Controller
             ],
             'methyl' => [
                 'key' => 'methyl',
-                'slug' => 'methyl-ester',
-                'title' => 'METHYL ESTER',
-                'description' => "Methyl Ester, commonly known as biodiesel, is a clean-burning renewable fuel produced through the transesterification of vegetable oils, animal fats, or recycled greases. It serves as a sustainable alternative to petroleum-based diesel.\n\nOur methyl ester products meet international quality standards and are compatible with existing diesel engines and infrastructure, making them ideal for reducing carbon emissions in transportation and industrial applications.",
+                'slug' => 'waste-based-fame',
+                'title' => 'WASTE-BASED FAME',
+                'description' => "Waste-based FAME (Fatty Acid Methyl Ester) is a renewable biodiesel produced from used cooking oils, processing residues, and other waste-based feedstocks. It delivers greenhouse-gas savings by diverting waste streams into circular, lower-carbon energy.\n\nOur waste-based FAME products meet international quality and sustainability standards and are compatible with existing diesel engines and infrastructure, making them ideal for reducing carbon emissions in transportation and industrial applications.",
                 'products' => [
-                    ['name' => 'UCO / RUCO', 'desc' => 'Used Cooking Oil – recycled cooking oil collected for biodiesel production.'],
-                    ['name' => 'EFBO', 'desc' => 'Empty Fruit Bunch Oil – extracted from palm empty fruit bunches.'],
+                    ['name' => 'POME-ME', 'desc' => 'Biodiesel made from palm oil mill wastewater.'],
+                    ['name' => 'UCO-ME', 'desc' => 'Biodiesel produced from recycled used cooking oil.'],
+                    ['name' => 'TER-ME', 'desc' => 'Biodiesel derived from industrial oil and fat residues.'],
                 ],
             ],
             'others' => [
                 'key' => 'others',
                 'slug' => 'others',
                 'title' => 'OTHERS',
-                'description' => "Beyond our core feedstock and methyl ester offerings, we supply a range of complementary products derived from the biofuel production process. These byproducts and derivatives support various industrial applications.\n\nOur diversified product portfolio enables us to maximize resource utilization while providing valuable materials to industries including cosmetics, pharmaceuticals, and chemical manufacturing.",
+                'description' => "Beyond our core feedstock and waste-based FAME offerings, we supply a range of complementary products derived from the biofuel production process. These byproducts and derivatives support various industrial applications.\n\nOur diversified product portfolio enables us to maximize resource utilization while providing valuable materials to industries including cosmetics, pharmaceuticals, and chemical manufacturing.",
                 'products' => [
                     ['name' => 'CRUDE GLYCERIN', 'desc' => 'Byproduct of biodiesel production used in cosmetics and pharmaceuticals.'],
                     ['name' => 'PF-AD', 'desc' => 'Essential components for soap, detergent, and chemical industries.'],
@@ -66,6 +67,8 @@ class ProductController extends Controller
         // Map slug to key
         $slugToKey = [
             'feedstocks' => 'feedstocks',
+            'waste-based-fame' => 'methyl',
+            // Legacy slug support
             'methyl-ester' => 'methyl',
             'others' => 'others',
         ];

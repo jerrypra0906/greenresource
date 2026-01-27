@@ -643,6 +643,13 @@ header {
   line-height: 1.5;
   margin: 0 0 2rem;
 }
+.about-subtitle {
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--brand-primary);
+  line-height: 1.5;
+  margin: 0 0 2rem;
+}
 
 .about-feature-image {
   margin-top: 0;

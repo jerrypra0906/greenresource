@@ -104,7 +104,7 @@
             <div class="footer-grid footer-grid-two">
                 <div>
                     <div class="brand">
-                        <img src="{{ asset('assets/Green Resources Logo white.png') }}" alt="Green Resources Logo" style="height: 40px;" />
+                        <img src="{{ asset('assets/new Green Resources Logo white.png') }}" alt="Green Resources Logo" style="height: 40px;" />
                     </div>
                     <p class="footer-text">
                         A modern, sustainable organization committed to excellence

@@ -64,7 +64,7 @@
                                         {{ ucfirst($inquiry->status) }}
                                     </span>
                                 </td>
-                                <td>{{ $inquiry->submitted_at->format('M d, Y') }}</td>
+                                <td>{{ $inquiry->submitted_at->timezone('Asia/Singapore')->format('M d, Y') }}</td>
                                 <td>
                                     <a href="{{ route('admin.inquiries.show', $inquiry) }}" class="btn-small">View</a>
                                 </td>

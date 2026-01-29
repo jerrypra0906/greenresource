@@ -41,36 +41,55 @@ class ContactController extends Controller
                 'submitted_at' => now(),
             ]);
 
-            // Get email recipients from site settings
+            // Get email recipients from site settings (Admin → Settings → Recipient Email(s))
             $recipients = SiteSetting::get('contact_email_recipients', config('mail.from.address'));
             $cc = SiteSetting::get('contact_email_cc', '');
             $bcc = SiteSetting::get('contact_email_bcc', '');
 
+            // Normalize: trim and filter empty addresses
+            $recipientEmails = is_array($recipients) ? $recipients : explode(',', (string) $recipients);
+            $recipientEmails = array_values(array_filter(array_map('trim', $recipientEmails)));
+
             // Send email notification
             try {
-                $emailData = [
-                    'inquiry' => $inquiry,
-                ];
+                if (empty($recipientEmails)) {
+                    Log::warning('Contact form: no recipient emails configured; skipping notification.');
+                } else {
+                    $emailData = [
+                        'inquiry' => $inquiry,
+                    ];
 
-                $recipientEmails = is_array($recipients) ? $recipients : explode(',', $recipients);
-                
-                Mail::send('emails.inquiry-notification', $emailData, function ($message) use ($recipientEmails, $cc, $bcc, $inquiry) {
-                    $message->to($recipientEmails)
-                        ->subject('New Inquiry: ' . $inquiry->subject);
-                    
-                    if ($cc) {
-                        $ccEmails = is_array($cc) ? $cc : explode(',', $cc);
-                        $message->cc($ccEmails);
-                    }
-                    
-                    if ($bcc) {
-                        $bccEmails = is_array($bcc) ? $bcc : explode(',', $bcc);
-                        $message->bcc($bccEmails);
-                    }
-                });
+                    Mail::send('emails.inquiry-notification', $emailData, function ($message) use ($recipientEmails, $cc, $bcc, $inquiry) {
+                        $message->to($recipientEmails)
+                            ->subject('New Inquiry: ' . $inquiry->subject);
+
+                        if (!empty($cc)) {
+                            $ccEmails = is_array($cc) ? $cc : explode(',', (string) $cc);
+                            $ccEmails = array_values(array_filter(array_map('trim', $ccEmails)));
+                            if (!empty($ccEmails)) {
+                                $message->cc($ccEmails);
+                            }
+                        }
+
+                        if (!empty($bcc)) {
+                            $bccEmails = is_array($bcc) ? $bcc : explode(',', (string) $bcc);
+                            $bccEmails = array_values(array_filter(array_map('trim', $bccEmails)));
+                            if (!empty($bccEmails)) {
+                                $message->bcc($bccEmails);
+                            }
+                        }
+                    });
+
+                    Log::info('Inquiry notification email sent', [
+                        'inquiry_id' => $inquiry->id,
+                        'to' => $recipientEmails,
+                    ]);
+                }
             } catch (\Exception $e) {
-                // Log email error but don't fail the inquiry submission
-                Log::error('Failed to send inquiry email: ' . $e->getMessage());
+                Log::error('Failed to send inquiry email: ' . $e->getMessage(), [
+                    'inquiry_id' => $inquiry->id,
+                    'exception' => $e->getTraceAsString(),
+                ]);
             }
 
             // Log inquiry for audit trail

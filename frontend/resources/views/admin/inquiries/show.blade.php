@@ -84,8 +84,8 @@
                 </div>
 
                 <div style="margin-bottom: 1.5rem;">
-                    <strong>Submitted:</strong>
-                    <p>{{ $inquiry->submitted_at->format('F j, Y \a\t g:i A') }}</p>
+                    <strong>Submitted (UTC+8):</strong>
+                    <p>{{ $inquiry->submitted_at->timezone('Asia/Singapore')->format('F j, Y \a\t g:i A') }}</p>
                 </div>
 
                 <form method="POST" action="{{ route('admin.inquiries.update-status', $inquiry) }}" style="margin-top: 2rem;">

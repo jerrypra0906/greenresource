@@ -695,15 +695,84 @@ header {
   padding-top: 2rem;
 }
 
-.sustainability-page .sustainability-section-grid .certification-grid {
+.sustainability-page .sustainability-section-grid .certification-slider {
   margin-top: 0;
 }
 
-.certification-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 2rem;
+.certification-slider-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
   margin-top: 2rem;
+}
+
+.certification-slider-btn {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(4, 101, 84, 0.25);
+  background: white;
+  color: var(--brand-primary);
+  font-size: 1.75rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.certification-slider-btn:hover {
+  background: var(--brand-primary);
+  color: white;
+  border-color: var(--brand-primary);
+  box-shadow: 0 6px 16px rgba(4, 101, 84, 0.25);
+}
+
+.certification-slider-btn:focus {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 2px;
+}
+
+/* Certification slider: same row, user can slide, infinite loop */
+.certification-slider {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-top: 0;
+  container-type: inline-size;
+  container-name: cert-slider;
+  /* Hide scrollbar (fixes blinking) while keeping scroll behavior */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.certification-slider::-webkit-scrollbar {
+  display: none;
+}
+
+.certification-slider-track {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 2rem;
+  width: max-content;
+  min-width: 100%;
+}
+
+@container cert-slider (min-width: 1px) {
+  .certification-slider-track .certification-card {
+    flex: 0 0 calc((100cqw - 2rem) / 2);
+    min-width: calc((100cqw - 2rem) / 2);
+    scroll-snap-align: start;
+    scroll-snap-stop: normal;
+  }
 }
 
 .certification-card {
@@ -1977,10 +2046,26 @@ footer {
     font-size: 1rem;
   }
 
-  /* Sustainability Page Responsive */
-  .certification-grid {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 1.5rem;
+  /* Sustainability Page Responsive - certification slider (mobile only) */
+  .certification-slider-track {
+    gap: 0;
+  }
+
+  @container cert-slider (min-width: 1px) {
+    .certification-slider-track .certification-card {
+      flex: 0 0 100cqw;
+      min-width: 100cqw;
+    }
+  }
+
+  .certification-slider-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+  }
+
+  .certification-slider-wrapper {
+    gap: 0.5rem;
   }
 
   .certification-card {

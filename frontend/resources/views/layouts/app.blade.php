@@ -17,7 +17,7 @@
     <meta name="msapplication-TileColor" content="#2d5016" />
     <meta name="msapplication-config" content="{{ asset('browserconfig.xml') }}" />
     
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}?v={{ filemtime(public_path('css/styles.css')) }}" />
     
     {{-- Preload critical banner images for current page --}}
     @if(request()->routeIs('home'))

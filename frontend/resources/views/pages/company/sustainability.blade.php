@@ -51,77 +51,116 @@
     </div>
 </section>
 
-{{-- Section 4: Certification Grid --}}
+{{-- Section 4: Certification Slider (infinite loop) --}}
 <section class="section sustainability-section-grid">
     <div class="container">
-        <div class="certification-grid">
-            {{-- Certification 1: RINA --}}
-            <div class="certification-card">
-                <div class="certification-logo">
-                    <img src="{{ asset('assets/certifications/rina.png') }}" alt="RINA Certification Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="certification-logo-placeholder" style="display: none;">
-                        <span>Logo</span>
-                    </div>
+        <div class="certification-slider-wrapper">
+            <button type="button" class="certification-slider-btn certification-slider-btn-prev" id="certification-slider-prev" aria-label="Previous certification">
+                <span aria-hidden="true">‹</span>
+            </button>
+            <div class="certification-slider" id="certification-slider" role="region" aria-label="Certifications carousel">
+                <div class="certification-slider-track" id="certification-slider-track">
+                    @include('pages.company.partials.certification-cards')
+                    @include('pages.company.partials.certification-cards')
                 </div>
-                <h3 class="certification-title">RINA Certification</h3>
-                <p class="certification-description">
-                    RINA Certification is an internationally recognized certification and assurance system that verifies compliance with regulatory and international standards. It ensures that management systems, products, and personnel meet requirements related to sustainability, safety, and innovation, while promoting transparency and accountability across operations.
-                </p>
-                <p class="certification-description">
-                    This certification covers key areas such as ESG and decarbonization, ICT and cybersecurity, health and safety, diversity and inclusion, food, transport, and green building.
-                </p>
-                <a href="https://www.rina.org" target="_blank" rel="noopener noreferrer" class="certification-link">
-                    Learn More →
-                </a>
             </div>
-
-            {{-- Certification 2: ISCC --}}
-            <div class="certification-card">
-                <div class="certification-logo">
-                    <img src="{{ asset('assets/certifications/iscc.png') }}" alt="ISCC Certification Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="certification-logo-placeholder" style="display: none;">
-                        <span>Logo</span>
-                    </div>
-                </div>
-                <h3 class="certification-title">International Sustainability and Carbon Certification</h3>
-                <p class="certification-description">
-                    International Sustainability & Carbon Certification (ISCC) is a globally recognized certification system for bio-based feedstocks and renewable materials used in the energy, food, feed, and chemical sectors.
-                </p>
-                <p class="certification-description">
-                    ISCC promotes sustainable practices by addressing key criteria such as greenhouse gas emission reduction, responsible land use, biodiversity protection, and social responsibility.
-                </p>
-                <p class="certification-description">
-                    As a member of the UN Global Compact, ISCC supports sustainable supply chains worldwide. ISCC certification also ensures compliance with the sustainability requirements of the European Union's Renewable Energy Directive (RED).
-                </p>
-                <a href="https://www.iscc-system.org/" target="_blank" rel="noopener noreferrer" class="certification-link">
-                    Learn More →
-                </a>
-            </div>
-
-            {{-- Certification 3: MPOB --}}
-            <div class="certification-card">
-                <div class="certification-logo">
-                    <img src="{{ asset('assets/certifications/mpob.png') }}" alt="MPOB Certification Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="certification-logo-placeholder" style="display: none;">
-                        <span>Logo</span>
-                    </div>
-                </div>
-                <h3 class="certification-title">Malaysian Palm Oil Board</h3>
-                <p class="certification-description">
-                    Malaysian Palm Oil Board (MPOB) is a statutory body under the Government of Malaysia responsible for regulating, promoting, and developing the Malaysian palm oil industry across upstream and downstream sectors.
-                </p>
-                <p class="certification-description">
-                    MPOB establishes standards and guidelines to ensure sustainable palm oil production, covering aspects such as good agricultural practices, environmental management, product quality, and industry compliance.
-                </p>
-                <p class="certification-description">
-                    Through research, certification, and regulatory oversight, MPOB supports responsible palm oil supply chains while strengthening industry competitiveness and compliance with national and international requirements.
-                </p>
-                <a href="https://mpob.gov.my/" target="_blank" rel="noopener noreferrer" class="certification-link">
-                    Learn More →
-                </a>
-            </div>
+            <button type="button" class="certification-slider-btn certification-slider-btn-next" id="certification-slider-next" aria-label="Next certification">
+                <span aria-hidden="true">›</span>
+            </button>
         </div>
     </div>
 </section>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+(function () {
+    var slider = document.getElementById('certification-slider');
+    var track = document.getElementById('certification-slider-track');
+    if (!slider || !track) return;
+    var cards = track.querySelectorAll('.certification-card');
+    var totalCards = cards.length;
+    var half = totalCards / 2;
+    var singleSetWidth = 0;
+    var programmatic = false;
+    function getGap() {
+        var g = getComputedStyle(track).gap;
+        return g ? parseFloat(g) || 32 : 32;
+    }
+    function measureSetWidth() {
+        if (cards.length < half) return;
+        singleSetWidth = 0;
+        var gap = getGap();
+        for (var i = 0; i < half; i++) {
+            singleSetWidth += cards[i].offsetWidth + (i < half - 1 ? gap : 0);
+        }
+    }
+    function clampScroll() {
+        if (programmatic || singleSetWidth <= 0) return;
+        var scrollLeft = slider.scrollLeft;
+        if (scrollLeft >= singleSetWidth) {
+            programmatic = true;
+            slider.scrollLeft = scrollLeft - singleSetWidth;
+            programmatic = false;
+        } else if (scrollLeft <= 0) {
+            programmatic = true;
+            slider.scrollLeft = scrollLeft + singleSetWidth;
+            programmatic = false;
+        }
+    }
+    var ticking = false;
+    function onScroll() {
+        if (!ticking) {
+            requestAnimationFrame(function () {
+                clampScroll();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }
+    measureSetWidth();
+    if (singleSetWidth > 0) {
+        programmatic = true;
+        slider.scrollLeft = singleSetWidth;
+        programmatic = false;
+    }
+    slider.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', function () {
+        measureSetWidth();
+    });
+    setTimeout(function () {
+        measureSetWidth();
+        if (singleSetWidth > 0 && slider.scrollLeft < singleSetWidth * 0.5) {
+            programmatic = true;
+            slider.scrollLeft = singleSetWidth;
+            programmatic = false;
+        }
+    }, 100);
+
+    function getStepWidth() {
+        if (cards.length === 0) return singleSetWidth;
+        var gap = getGap();
+        return cards[0].offsetWidth + gap;
+    }
+    function goNext() {
+        var step = getStepWidth();
+        programmatic = true;
+        slider.scrollLeft += step;
+        programmatic = false;
+        requestAnimationFrame(function () { clampScroll(); });
+    }
+    function goPrev() {
+        var step = getStepWidth();
+        programmatic = true;
+        slider.scrollLeft -= step;
+        programmatic = false;
+        requestAnimationFrame(function () { clampScroll(); });
+    }
+    var btnPrev = document.getElementById('certification-slider-prev');
+    var btnNext = document.getElementById('certification-slider-next');
+    if (btnPrev) btnPrev.addEventListener('click', goPrev);
+    if (btnNext) btnNext.addEventListener('click', goNext);
+})();
+</script>
+@endpush

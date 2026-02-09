@@ -1,0 +1,12 @@
+# Optional override for LOCAL DEVELOPMENT only.
+# Copy to docker-compose.override.yml to expose the database port to your host
+# (e.g. for GUI clients or CLI tools). Do NOT use in production.
+#
+#   cp docker-compose.override.yml.example docker-compose.override.yml
+#
+# Then: docker compose up -d  (Compose automatically merges override)
+
+services:
+  postgres:
+    ports:
+      - "5434:5432"

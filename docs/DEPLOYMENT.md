@@ -164,6 +164,38 @@ sudo ufw enable
   - Email: `admin@greenresources.com`
   - Password: `admin123` (Change immediately!)
 
+#### Step 8: Critical security and operations (production)
+
+**Database port:** The default `docker-compose.yml` does **not** expose the PostgreSQL port to the host (recommended for production). To connect from the host (e.g. for local development), copy and use the override:
+```bash
+cp docker-compose.override.yml.example docker-compose.override.yml
+# Then: docker compose up -d
+```
+
+**Session security:** With `APP_ENV=production`, session encryption and secure cookies are enabled by default. Ensure `APP_KEY` is set (e.g. `php artisan key:generate`).
+
+**Rate limiting:** Applied globally (Laravel + Nginx) and to the contact form. No extra configuration required.
+
+**Automated backups:** Daily backups (database + storage) run via Laravel scheduler. You must trigger the scheduler every minute with cron on the host:
+
+```bash
+# On the server, run: crontab -e
+# Add this line (adjust path to your project):
+* * * * * cd /var/www/greenresource/frontend && docker compose exec -T app php artisan schedule:run >> /dev/null 2>&1
+```
+
+Backups are written to `storage/app/backups/` inside the app container. To keep them on the host, mount a volume in `docker-compose.yml` for the app service, e.g.:
+
+```yaml
+app:
+  volumes:
+    - backup_data:/var/www/html/storage/app/backups
+volumes:
+  backup_data:
+```
+
+Optional env in `.env`: `BACKUP_PATH`, `BACKUP_RETENTION_DAYS` (default 14), `BACKUP_DATABASE_ENABLED=true`. Manual run: `docker compose exec app php artisan backup:run`.
+
 ---
 
 ### Option 2: Traditional Deployment (Without Docker)
@@ -943,6 +975,34 @@ sudo systemctl restart php8.2-fpm
 ## Maintenance Commands
 
 ### Update Application
+
+**Docker deployment:**
+
+```bash
+cd /var/www/greenresource/frontend
+
+# 1. Pull latest code
+git pull origin main
+
+# 2. Stop containers before rebuilding
+docker-compose down
+
+# 3. Rebuild and start containers
+docker-compose up -d --build
+
+# 4. Install/update PHP dependencies (if composer.json changed)
+docker-compose exec app composer install --no-dev --optimize-autoloader
+
+# 5. Run new migrations only (if any)
+docker-compose exec app php artisan migrate
+
+# 6. Clear caches (good after code/config changes)
+docker-compose exec app php artisan config:clear
+docker-compose exec app php artisan cache:clear
+docker-compose exec app php artisan view:clear
+```
+
+**Traditional deployment:**
 
 ```bash
 cd /var/www/greenresource/frontend

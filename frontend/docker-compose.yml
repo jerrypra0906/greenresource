@@ -9,8 +9,10 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       PGDATA: /var/lib/postgresql/data/pgdata
-    ports:
-      - "5434:5432"
+    # Port not exposed in production (security). For local dev DB access, use:
+    #   docker compose -f docker-compose.yml -f docker-compose.override.yml up -d
+    # ports:
+    #   - "5434:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:

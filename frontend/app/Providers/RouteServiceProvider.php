@@ -28,6 +28,16 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
 
+        // Global web rate limit (DoS protection)
+        RateLimiter::for('web', function (Request $request) {
+            return Limit::perMinute(120)->by($request->ip());
+        });
+
+        // Stricter limit for contact form
+        RateLimiter::for('contact', function (Request $request) {
+            return Limit::perMinute(10)->by($request->ip());
+        });
+
         $this->routes(function () {
             Route::middleware('api')
                 ->prefix('api')

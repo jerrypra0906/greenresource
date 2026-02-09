@@ -6,7 +6,6 @@
 /frontend/.env.docker
 /frontend/.phpunit.result.cache
 /frontend/storage/*.key
-/frontend/storage/app/backups/
 /frontend/storage/framework/cache/*
 /frontend/storage/framework/sessions/*
 /frontend/storage/framework/views/*

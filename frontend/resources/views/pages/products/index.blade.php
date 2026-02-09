@@ -21,10 +21,10 @@
     <div class="container">
         <div class="products-description">
             <p class="products-description-text">
-            All our products—including palm oil mill effluent, empty fruit bunch oil, used cooking oil, spent bleaching earth oil, trans-esterified residue, and fatty acid methyl esters—are certified under the prestigious ISCC scheme. Green Resources offers a seamlessly integrated value chain covering origination, precise logistics planning, secure storage, and efficient transportation, serving clients across the Asia-Pacific region and Europe.
+                All our products, including POME, PME, and UCO, bear the prestigious ISCC certification. Green Resources proudly offers a seamless integrated value chain that encompasses origination, precise logistical arrangements, secure storage, and efficient transportation to our valued clients across the Asia-Pacific region and Europe.
             </p>
             <p class="products-description-text">
-            Our proven track record of exports to these regions reflects our unwavering commitment to reliability and uncompromising quality.
+                Our proven track record in exporting to these regions underscores our unwavering commitment to reliability and uncompromising quality.
             </p>
         </div>
     </div>

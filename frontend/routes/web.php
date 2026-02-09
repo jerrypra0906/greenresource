@@ -76,7 +76,6 @@ Route::group([], function () {
 // Re-enable with: Route::middleware(['cache.response:3600'])->group(function () {
 
 Route::post('/contact', [App\Http\Controllers\ContactController::class, 'submit'])
-    ->middleware('throttle:contact')
     ->name('contact.submit');
 
 // Admin Routes

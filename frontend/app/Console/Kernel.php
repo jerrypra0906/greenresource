@@ -12,7 +12,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        // Daily database backup at 2:00 AM (when enabled in production)
+        if (config('backup.enabled', false)) {
+            $schedule->command('db:backup')->daily()->at('02:00');
+        }
     }
 
     /**

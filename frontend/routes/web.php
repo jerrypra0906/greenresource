@@ -76,6 +76,7 @@ Route::group([], function () {
 // Re-enable with: Route::middleware(['cache.response:3600'])->group(function () {
 
 Route::post('/contact', [App\Http\Controllers\ContactController::class, 'submit'])
+    ->middleware('throttle:contact')
     ->name('contact.submit');
 
 // Admin Routes
@@ -120,6 +121,7 @@ Route::prefix('admin')->group(function () {
         // CMS Routes - Media
         Route::resource('media', App\Http\Controllers\Admin\MediaController::class);
         Route::post('/media/upload', [App\Http\Controllers\Admin\MediaController::class, 'upload'])
+            ->middleware('throttle:media-upload')
             ->name('media.upload');
 
         // CMS Routes - Navigation

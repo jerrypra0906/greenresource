@@ -1,0 +1,7 @@
+# Development override - exposes database port for local tools (pgAdmin, DBeaver, etc.)
+# Usage: docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+# Do NOT use in production.
+services:
+  postgres:
+    ports:
+      - "5434:5432"

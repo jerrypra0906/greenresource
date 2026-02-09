@@ -110,9 +110,15 @@ DB_PASSWORD=your_secure_password_here
 
 #### Step 5: Build and Start Containers
 
+**Production (recommended):** Database port is NOT exposed to the host for security.
 ```bash
 # Build and start all services
 docker-compose up -d --build
+```
+
+**Local development:** If you need to connect to the database from your host (pgAdmin, DBeaver, etc.):
+```bash
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
 
 # Wait for containers to be ready
 sleep 10
@@ -547,7 +553,23 @@ sudo ufw enable
 
 ### 5. Configure Automatic Backups
 
-Create a backup script:
+**For Docker deployment**, automated backups run in production only (daily at 2:00 AM, 7-day retention):
+
+1. Add to your production `.env`:
+```env
+APP_ENV=production
+BACKUP_ENABLED=true
+BACKUP_RETENTION_DAYS=7
+```
+
+2. The scheduler container runs automatically with `docker-compose up`. No cron setup needed. Backups are saved to `storage/app/backups/`.
+
+To run a backup manually:
+```bash
+docker-compose exec app php artisan db:backup
+```
+
+**For traditional deployment**, create a backup script:
 ```bash
 sudo nano /usr/local/bin/backup-greenresource.sh
 ```

@@ -10,6 +10,7 @@
 /frontend/storage/framework/sessions/*
 /frontend/storage/framework/views/*
 /frontend/storage/logs/*
+/frontend/storage/app/backups/*
 /frontend/bootstrap/cache/*
 /frontend/public/storage
 /frontend/database/database.sqlite

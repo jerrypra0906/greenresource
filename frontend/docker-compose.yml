@@ -9,8 +9,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       PGDATA: /var/lib/postgresql/data/pgdata
-    ports:
-      - "5434:5432"
+    # Port NOT exposed by default (production-safe). For local dev, use:
+    # docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -29,6 +29,31 @@ services:
     container_name: green_resources_app
     restart: unless-stopped
     working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+      - ./storage:/var/www/html/storage
+    networks:
+      - green_resources_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - DB_CONNECTION=pgsql
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_DATABASE=greenresource
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=${DB_PASSWORD}
+
+  # Laravel Scheduler (runs daily backup at 2:00 AM in production)
+  scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: green_resources_scheduler
+    restart: unless-stopped
+    working_dir: /var/www/html
+    command: php artisan schedule:work
     volumes:
       - ./:/var/www/html
       - ./storage:/var/www/html/storage

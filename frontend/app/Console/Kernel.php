@@ -14,7 +14,7 @@ class Kernel extends ConsoleKernel
     {
         // Daily database backup at 2:00 AM (when enabled in production)
         if (config('backup.enabled', false)) {
-            $schedule->command('db:backup')->daily()->at('02:00');
+            $schedule->command('db:backup')->daily()->at('19:00');
         }
     }
 

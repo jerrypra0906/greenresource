@@ -12,10 +12,12 @@ $allProducts = [
         'description' => "Feedstock refers to the primary raw materials used in the production of energy, particularly renewable and bio-based fuels. As an energy company specializing in feedstock supply, we provide sustainable materials sourced from renewable resources, waste, and industrial residues.\n\nOur feedstocks meet strict quality, traceability, and sustainability standards, supported by integrated logistics and reliable supply networks to ensure consistent delivery and support the global energy transition.",
         'products' => [
             ['name' => 'POME / RPOME', 'desc' => 'Palm Oil Mill Effluent – a byproduct of palm oil processing used as renewable feedstock.'],
+            ['name' => 'EFBO', 'desc' => 'Residual oil recovered from palm empty fruit bunches after milling.'],
+            ['name' => 'FWO', 'desc' => 'Residual oil recovered from palm empty fruit bunches after milling.'],
             ['name' => 'UCO / RUCO', 'desc' => 'Used Cooking Oil – recycled cooking oil collected for biodiesel production.'],
-            ['name' => 'EFBO', 'desc' => 'Empty Fruit Bunch Oil – extracted from palm empty fruit bunches.'],
             ['name' => 'SBEO', 'desc' => 'Soybean Oil – plant-based oil from soybean processing.'],
             ['name' => 'Trans-esterified Residue', 'desc' => 'Residue generated from biodiesel transesterification process.'],
+            ['name' => 'BDR', 'desc' => 'Heavy residue left after biodiesel or fatty acid distillation, reused as advanced feedstock.'],
         ],
     ],
     'methyl' => [
@@ -53,7 +55,7 @@ if (!in_array($initialTab, ['feedstocks', 'methyl', 'others'])) {
         <div class="about-banner">
             <div
                 class="about-banner-background"
-                style="background-image: url('{{ asset('assets/banners/products.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;"
+                style="background-image: url('{{ asset('assets/banners/products.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;"
             ></div>
         </div>
     </div>
@@ -346,38 +348,22 @@ if (!in_array($initialTab, ['feedstocks', 'methyl', 'others'])) {
      */
     function generateProductDetailHTML(data) {
         const imageMap = {
-            'feedstocks': 'assets/images/feedstocks-palm-oil.png',
-            'methyl': 'assets/images/methyl-ester.png',
+            'feedstocks': 'assets/images/feedstocks-palm-oil.jpg',
+            'methyl': 'assets/images/methyl-ester.jpg',
             'others': 'assets/images/others.jpeg',
         };
         const imagePath = imageMap[data.key] || 'assets/images/products.png';
-        const productCount = data.products.length;
-        
         let productsHTML = '';
         
-        if (data.key === 'feedstocks' && productCount >= 5) {
-            // Feedstocks: 3 cards top, 2 cards bottom
-            const topProducts = data.products.slice(0, 3);
-            const bottomProducts = data.products.slice(3, 2);
-            
+        if (data.key === 'feedstocks') {
             productsHTML = `
-                <div class="product-top-row">
-                    ${topProducts.map(p => `
+                <div class="product-feedstocks-grid">
+                    ${data.products.map(p => `
                         <div class="product-card-item">
                             <h3 class="product-card-title">${escapeHtml(p.name)}</h3>
                             <p class="product-card-desc">${escapeHtml(p.desc)}</p>
                         </div>
                     `).join('')}
-                </div>
-                <div class="product-bottom-row-wrapper">
-                    <div class="product-bottom-row">
-                        ${bottomProducts.map(p => `
-                            <div class="product-card-item">
-                                <h3 class="product-card-title">${escapeHtml(p.name)}</h3>
-                                <p class="product-card-desc">${escapeHtml(p.desc)}</p>
-                            </div>
-                        `).join('')}
-                    </div>
                 </div>
             `;
         } else {

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Feedstocks – Green Resources')
-@section('description', 'Explore our sustainable feedstock products including POME, UCO, EFBO, and SBEO.')
+@section('description', 'Explore our sustainable feedstock products including POME, UCO, EFBO, FWO, BDR, and SBEO.')
 
 @section('content')
 @php
@@ -13,10 +13,12 @@ Our feedstocks meet strict quality, traceability, and sustainability standards, 
 
 $products = [
     ['name' => 'POME / RPOME', 'desc' => 'Palm Oil Mill Effluent – a byproduct of palm oil processing used as renewable feedstock.'],
+    ['name' => 'EFBO', 'desc' => 'Residual oil recovered from palm empty fruit bunches after milling.'],
+    ['name' => 'FWO', 'desc' => 'Residual oil recovered from palm empty fruit bunches after milling.'],
     ['name' => 'UCO / RUCO', 'desc' => 'Used Cooking Oil – recycled cooking oil collected for biodiesel production.'],
-    ['name' => 'EFBO', 'desc' => 'Empty Fruit Bunch Oil – extracted from palm empty fruit bunches.'],
     ['name' => 'SBEO', 'desc' => 'Soybean Oil – plant-based oil from soybean processing.'],
     ['name' => 'Trans-esterified Residue', 'desc' => 'Residue generated from biodiesel transesterification process.'],
+    ['name' => 'BDR', 'desc' => 'Heavy residue left after biodiesel or fatty acid distillation, reused as advanced feedstock.'],
 ];
 @endphp
 

@@ -17,8 +17,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
 
-// Temporarily disable response caching to debug performance
-Route::group([], function () {
+// Full-page response caching for public marketing pages (1 hour TTL).
+// Skips admin routes and non-GET requests automatically (see CacheResponse middleware).
+Route::middleware(['cache.response:3600'])->group(function () {
     Route::get('/', [PageController::class, 'home'])->name('home');
 
     // Company Routes
@@ -57,11 +58,6 @@ Route::group([], function () {
             ->name('products.show');
     });
 
-    // Contact Us Route
-    Route::get('/contact-us', function () {
-        return view('contact-us');
-    })->name('contact');
-
     // Contact Us Sub-routes
     Route::prefix('contact-us')->group(function () {
         Route::get('/fulfill-form', function () {
@@ -73,7 +69,15 @@ Route::group([], function () {
         })->name('contact-us.contacts');
     });
 });
-// Re-enable with: Route::middleware(['cache.response:3600'])->group(function () {
+
+// NOTE: /contact-us is intentionally NOT inside the cache.response group above.
+// It renders a @csrf token in its form; full-page response caching is shared
+// across all visitors, so caching this page would bake one visitor's CSRF
+// token into the HTML served to everyone else and break form submissions
+// (419 Page Expired) for all but the first request after each cache write.
+Route::get('/contact-us', function () {
+    return view('contact-us');
+})->name('contact');
 
 Route::post('/contact', [App\Http\Controllers\ContactController::class, 'submit'])
     ->middleware('throttle:contact')

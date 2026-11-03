@@ -695,6 +695,44 @@ header {
   padding-top: 2rem;
 }
 
+/* Sustainability document (PDF preview / download) */
+.sustainability-document-intro {
+  max-width: 720px;
+}
+
+.sustainability-document-panel {
+  margin-top: 1.5rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+}
+
+.sustainability-document-panel--unavailable {
+  margin-top: 1.5rem;
+  padding: 1.75rem;
+  border-radius: 1.1rem;
+  border: 1px solid rgba(4, 101, 84, 0.18);
+  background: #f9fafb;
+}
+
+.sustainability-document-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.sustainability-document-btn {
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .sustainability-document-actions .sustainability-document-btn {
+    flex: 1 1 calc(50% - 0.375rem);
+    min-width: 140px;
+  }
+}
+
 .sustainability-page .sustainability-section-grid .certification-slider {
   margin-top: 0;
 }
@@ -1826,6 +1864,89 @@ footer {
 .admin-card:hover {
   border-color: rgba(5, 150, 105, 0.3);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Admin pagination (Inquiries, Media, etc.) */
+.admin-pagination {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.admin-pagination-summary {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #64748b;
+  text-align: center;
+}
+
+.admin-pagination-summary-strong {
+  font-weight: 600;
+  color: #334155;
+}
+
+.admin-pagination-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.admin-pagination-list li {
+  margin: 0;
+  padding: 0;
+}
+
+.admin-pagination-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.25rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 0.375rem;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: #ffffff;
+  color: #334155;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  line-height: 1.25;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+a.admin-pagination-link:hover {
+  border-color: rgba(5, 150, 105, 0.45);
+  color: #047857;
+  background: rgba(5, 150, 105, 0.06);
+}
+
+.admin-pagination-link--active {
+  border-color: #047857;
+  background: #047857;
+  color: #ffffff;
+  cursor: default;
+}
+
+.admin-pagination-link--disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  background: #f8fafc;
+}
+
+.admin-pagination-ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  padding: 0.45rem 0.25rem;
+  color: #94a3b8;
+  font-size: 0.875rem;
 }
 
 .field-error {

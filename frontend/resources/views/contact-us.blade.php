@@ -10,7 +10,7 @@
         <div class="about-banner">
             <div
                 class="about-banner-background"
-                style="background-image: url('{{ asset('assets/banners/contact.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;"
+                style="background-image: url('{{ asset('assets/banners/contact.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;"
             ></div>
         </div>
     </div>
@@ -36,16 +36,6 @@
                             <p>Samsung Hub</p>
                             <p>3 Church St #11-02</p>
                             <p>Singapore 049483</p>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-panel-row">
-                        <svg class="contact-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="3" y="5" width="18" height="14" rx="2" ry="2"></rect>
-                            <polyline points="3 7 12 13 21 7"></polyline>
-                        </svg>
-                        <div>
-                            <p>grbio-ops@kpn-corp.com</p>
                         </div>
                     </div>
                 </div>

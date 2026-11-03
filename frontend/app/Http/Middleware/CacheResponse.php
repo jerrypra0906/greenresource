@@ -26,8 +26,13 @@ class CacheResponse
             return $next($request);
         }
 
-        // Generate cache key based on full URL
-        $cacheKey = 'response.' . md5($request->fullUrl());
+        // Generate cache key based on full URL plus any headers that change the
+        // response body for the same URL (e.g. ProductController's AJAX partial
+        // fetch uses X-Partial on the same /products/{category} URL as the full
+        // page). Without this, a full-page load and a partial fetch for the same
+        // URL would overwrite each other's cache entry and serve the wrong body.
+        $varyKey = $request->header('X-Partial', '');
+        $cacheKey = 'response.' . md5($request->fullUrl() . '|' . $varyKey);
 
         // Try to get cached response
         $cached = Cache::get($cacheKey);

@@ -45,3 +45,7 @@ Thumbs.db
 *.tmp
 *.temp
 
+# Database backups/dumps (may contain credentials, password hashes, PII)
+*.sql
+/frontend/backup_*.sql
+

@@ -21,15 +21,15 @@
     
     {{-- Preload critical banner images for current page --}}
     @if(request()->routeIs('home'))
-        <link rel="preload" as="image" href="{{ asset('assets/banners/home.png') }}" />
+        <link rel="preload" as="image" href="{{ asset('assets/banners/home.jpg') }}" />
     @elseif(request()->routeIs('products.*'))
-        <link rel="preload" as="image" href="{{ asset('assets/banners/products.png') }}" />
+        <link rel="preload" as="image" href="{{ asset('assets/banners/products.jpg') }}" />
     @elseif(request()->routeIs('contact'))
-        <link rel="preload" as="image" href="{{ asset('assets/banners/contact.png') }}" />
+        <link rel="preload" as="image" href="{{ asset('assets/banners/contact.jpg') }}" />
     @elseif(request()->routeIs('company.about'))
-        <link rel="preload" as="image" href="{{ asset('assets/banners/about.png') }}" />
+        <link rel="preload" as="image" href="{{ asset('assets/banners/about.jpg') }}" />
     @elseif(request()->routeIs('company.sustainability'))
-        <link rel="preload" as="image" href="{{ asset('assets/banners/sustainability.png') }}" />
+        <link rel="preload" as="image" href="{{ asset('assets/banners/sustainability.jpg') }}" />
     @endif
     
     @stack('styles')

@@ -11,7 +11,7 @@
         <div class="about-banner">
             <div
                 class="about-banner-background"
-                style="background-image: url('{{ asset('assets/banners/sustainability.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;"
+                style="background-image: url('{{ asset('assets/banners/sustainability.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;"
             ></div>
         </div>
     </div>
@@ -26,9 +26,13 @@
             <p class="about-paragraph sustainability-paragraph">
                 Green Resources Pte Ltd sources and trades renewable energy feedstocks from circular oil palm waste and residues, supporting greenhouse-gas reduction and circular economy outcomes.
             </p>
-            <p class="about-paragraph sustainability-paragraph sustainability-paragraph-last">
+            <p class="about-paragraph sustainability-paragraph">
                 We operate with a transparent, risk-based sourcing framework, aligned with international sustainability and renewable energy regulations, delivering credible documentation, traceability, and dependable supply for global markets.
             </p>
+            <p class="about-paragraph sustainability-paragraph sustainability-paragraph-last sustainability-document-intro">
+                Our commitments are outlined in our Sustainability Policy. For more information, please refer to our Sustainability Policy Document.
+            </p>
+            @include('pages.company.partials.sustainability-document')
         </div>
     </div>
 </section>

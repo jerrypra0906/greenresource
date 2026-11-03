@@ -17,12 +17,11 @@
 {{-- Product Details Layout --}}
 @php
     $imageMap = [
-        'feedstocks' => 'assets/images/feedstocks-palm-oil.png',
-        'methyl' => 'assets/images/methyl-ester.png',
+        'feedstocks' => 'assets/images/feedstocks-palm-oil.jpg',
+        'methyl' => 'assets/images/methyl-ester.jpg',
         'others' => 'assets/images/others.jpeg',
     ];
     $imagePath = $imageMap[$categoryKey] ?? 'assets/images/products.png';
-    $productCount = count($products);
 @endphp
 
 <div class="product-layout">
@@ -38,33 +37,14 @@
     
     {{-- Right: Product Cards --}}
     <div class="product-cards-container">
-        @if($categoryKey === 'feedstocks' && $productCount >= 5)
-            {{-- Feedstocks: 3 cards top, 2 cards bottom centered --}}
-            @php
-                $topProducts = array_slice($products, 0, 3);
-                $bottomProducts = array_slice($products, 3, 2);
-            @endphp
-            
-            {{-- Top Row: 3 cards --}}
-            <div class="product-top-row">
-                @foreach($topProducts as $product)
+        @if($categoryKey === 'feedstocks')
+            <div class="product-feedstocks-grid">
+                @foreach($products as $product)
                 <div class="product-card-item">
                     <h3 class="product-card-title">{{ $product['name'] }}</h3>
                     <p class="product-card-desc">{{ $product['desc'] }}</p>
                 </div>
                 @endforeach
-            </div>
-            
-            {{-- Bottom Row: 2 cards centered --}}
-            <div class="product-bottom-row-wrapper">
-                <div class="product-bottom-row">
-                    @foreach($bottomProducts as $product)
-                    <div class="product-card-item">
-                        <h3 class="product-card-title">{{ $product['name'] }}</h3>
-                        <p class="product-card-desc">{{ $product['desc'] }}</p>
-                    </div>
-                    @endforeach
-                </div>
             </div>
         @else
             {{-- Waste-based FAME and Others: 2 cards in centered layout --}}
@@ -113,33 +93,36 @@
     .product-cards-container {
         display: flex;
         flex-direction: column;
+        width: 100%;
     }
-    .product-top-row {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-        margin-bottom: 1.5rem;
-    }
-    @media (min-width: 768px) {
-        .product-top-row {
-            grid-template-columns: repeat(3, 1fr);
-        }
-    }
-    .product-bottom-row-wrapper {
-        display: flex;
-        justify-content: center;
-        margin-top: 1.5rem;
-    }
-    .product-bottom-row {
+    .product-feedstocks-grid {
         display: grid;
         grid-template-columns: 1fr;
         gap: 1.5rem;
         width: 100%;
+        align-items: stretch;
     }
     @media (min-width: 768px) {
-        .product-bottom-row {
+        .product-feedstocks-grid {
             grid-template-columns: repeat(2, 1fr);
-            max-width: 66.666667%;
+        }
+        .product-feedstocks-grid .product-card-item:last-child:nth-child(odd):not(:only-child) {
+            grid-column: 1 / -1;
+            max-width: calc(50% - 0.75rem);
+            justify-self: center;
+        }
+    }
+    @media (min-width: 992px) {
+        .product-feedstocks-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        .product-feedstocks-grid .product-card-item:last-child:nth-child(odd):not(:only-child) {
+            grid-column: auto;
+            max-width: none;
+            justify-self: stretch;
+        }
+        .product-feedstocks-grid .product-card-item:last-child:nth-child(3n+1):not(:only-child) {
+            grid-column: 2;
         }
     }
     .product-card-item {
@@ -148,6 +131,7 @@
         border-radius: 1.1rem;
         padding: 1.35rem 1.25rem;
         box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+        height: 100%;
     }
     .product-card-title {
         font-weight: 700;

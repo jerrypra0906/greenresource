@@ -10,7 +10,7 @@
         <div class="about-banner">
             <div
                 class="about-banner-background"
-                style="background-image: url('{{ asset('assets/banners/products.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;"
+                style="background-image: url('{{ asset('assets/banners/products.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;"
             ></div>
         </div>
     </div>
@@ -39,10 +39,10 @@
         </div>
         
         <div class="products-category-grid">
-            <a href="{{ route('products.show', 'feedstocks') }}" class="products-category-tile" data-preload-image="{{ asset('assets/banners/products.png') }}">
+            <a href="{{ route('products.show', 'feedstocks') }}" class="products-category-tile" data-preload-image="{{ asset('assets/banners/products.jpg') }}">
                 <div class="products-category-image">
                     <x-app-image 
-                        src="{{ asset('assets/images/feedstocks-palm-oil.png') }}" 
+                        src="{{ asset('assets/images/feedstocks-palm-oil.jpg') }}" 
                         alt="Feedstocks"
                         fill
                         sizes="(max-width: 768px) 100vw, 33vw"
@@ -51,10 +51,10 @@
                 <h3 class="products-category-label">FEEDSTOCKS</h3>
             </a>
             
-            <a href="{{ route('products.show', 'waste-based-fame') }}" class="products-category-tile" data-preload-image="{{ asset('assets/banners/products.png') }}">
+            <a href="{{ route('products.show', 'waste-based-fame') }}" class="products-category-tile" data-preload-image="{{ asset('assets/banners/products.jpg') }}">
                 <div class="products-category-image">
                     <x-app-image 
-                        src="{{ asset('assets/images/methyl-ester.png') }}" 
+                        src="{{ asset('assets/images/methyl-ester.jpg') }}" 
                         alt="Waste-based FAME"
                         fill
                         sizes="(max-width: 768px) 100vw, 33vw"
@@ -63,7 +63,7 @@
                 <h3 class="products-category-label">WASTE-BASED FAME</h3>
             </a>
             
-            <a href="{{ route('products.show', 'others') }}" class="products-category-tile" data-preload-image="{{ asset('assets/banners/products.png') }}">
+            <a href="{{ route('products.show', 'others') }}" class="products-category-tile" data-preload-image="{{ asset('assets/banners/products.jpg') }}">
                 <div class="products-category-image">
                     <x-app-image 
                         src="{{ asset('assets/images/others.jpeg') }}" 

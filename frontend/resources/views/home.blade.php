@@ -8,7 +8,7 @@
 <section class="home-banner">
     <div
         class="home-banner-background"
-        style="background-image: url('{{ asset('assets/banners/home.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;"
+        style="background-image: url('{{ asset('assets/banners/home.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;"
     ></div>
 </section>
 
@@ -34,7 +34,7 @@
         <div class="image-grid">
             <div class="image-grid-card">
                 <x-app-image 
-                    src="{{ asset('assets/images/home-grid-1.png') }}" 
+                    src="{{ asset('assets/images/home-grid-1.jpg') }}" 
                     alt="Green Resources – Image 1"
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -42,7 +42,7 @@
             </div>
             <div class="image-grid-card">
                 <x-app-image 
-                    src="{{ asset('assets/images/home-grid-2.png') }}" 
+                    src="{{ asset('assets/images/home-grid-2.jpg') }}" 
                     alt="Green Resources – Image 2"
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -50,7 +50,7 @@
             </div>
             <div class="image-grid-card">
                 <x-app-image 
-                    src="{{ asset('assets/images/home-grid-3.png') }}" 
+                    src="{{ asset('assets/images/home-grid-3.jpg') }}" 
                     alt="Green Resources – Image 3"
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

@@ -20,9 +20,9 @@ class ProductController extends Controller
                 'products' => [
                     ['name' => 'POME / RPOME', 'desc' => 'Palm Oil Mill Effluent – a byproduct of palm oil processing used as renewable feedstock.'],
                     ['name' => 'EFBO', 'desc' => 'Residual oil recovered from palm empty fruit bunches after milling.'],
-                    ['name' => 'FWO', 'desc' => 'Residual oil recovered from palm empty fruit bunches after milling.'],
+                    ['name' => 'FWO', 'desc' => 'Contaminated food-grade oil from system flushing, suitable only for energy use'],
                     ['name' => 'UCO / RUCO', 'desc' => 'Used Cooking Oil – recycled cooking oil collected for biodiesel production.'],
-                    ['name' => 'SBEO', 'desc' => 'Soybean Oil – plant-based oil from soybean processing.'],
+                    ['name' => 'SBEO', 'desc' => 'Oil recovered from spent bleaching clay used in vegetable oil refining'],
                     ['name' => 'Trans-esterified Residue', 'desc' => 'Residue generated from biodiesel transesterification process.'],
                     ['name' => 'BDR', 'desc' => 'Heavy residue left after biodiesel or fatty acid distillation, reused as advanced feedstock.'],
                 ],
